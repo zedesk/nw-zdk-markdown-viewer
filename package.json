@@ -1,7 +1,7 @@
 {
   "name": "zeDesk-MMD",
   "preferGlobal": false,
-  "version": "0.0.2",
+  "version": "0.0.2-pre",
   "author": "zeDesk",
   "description": "A markdown viewer and editor",
   "contributors": [
@@ -17,7 +17,7 @@
   "main": "s",
   "repository": {
     "type": "git",
-    "url": "http://git.zedesk.net/fablec/mmd.git"
+    "url": "git@github.com:zedesk/nw-zdk-markdown-viewer.github"
   },
   "dependencies": {
   },
