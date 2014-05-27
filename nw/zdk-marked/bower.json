@@ -1,0 +1,26 @@
+{
+  "name": "zdk-marked",
+  "version": "0.0.2",
+  "authors": [
+    "Fabrice <fabrice.lecoz@zedesk.net>"
+  ],
+  "description": "A markdown viewer component",
+  "keywords": [
+    "component",
+    "webcomponent",
+    "polymer",
+    "markdown"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "../",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#~0.2.4",
+    "highlightjs": "~8.0.0"
+  }
+}

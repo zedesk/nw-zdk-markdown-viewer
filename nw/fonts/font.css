@@ -1,0 +1,13 @@
+@font-face {
+   font-family: 'Oxygen';
+   font-style: normal;
+   font-weight: 400;
+   src: local('Oxygen'), local('Oxygen-Regular'), url(Oxygen-Regular.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Oxygen Bold'), local('Oxygen-Bold'), url(Oxygen-Bold.woff) format('woff');
+}

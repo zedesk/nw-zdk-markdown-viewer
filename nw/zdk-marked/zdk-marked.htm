@@ -1,0 +1,151 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<script src="marked.js"></script>
+<script src="../bower_components/highlightjs/highlight.pack.js"></script>
+
+<polymer-element name="zdk-marked" attributes="src path">
+	<template>
+		<link rel="stylesheet" href="zdk-marked.css">
+		<link rel="stylesheet" href="../bower_components/highlightjs/styles/magula.css">
+		<style>
+		:host {
+			display:flex;
+			position:relative;
+            box-sizing:border-box;
+            overflow:hidden;
+            flex-direction: column;
+		}
+		</style>
+		<div id="banner">
+			<div class="meta">
+				<span class="title"></span>
+				<span class="author"></span>
+				<span class="date"></span>
+			</div>
+			<img class="toc" src="../img/toc.png" width="50" height="50" alt="List">
+		</div>
+		<div id="markdown"></div>
+		<div id="toc"></div>
+	</template>
+	
+	<script>
+	Polymer('zdk-marked',{
+		src : "",
+		path: "",
+		
+		ready : function() {
+			hljs.initHighlightingOnLoad();
+			
+			var options = {
+				gfm: true,
+				highlight: function (code, lang) {
+					return hljs.highlightAuto(code).value;
+				},
+				tables: true,
+				breaks: false,
+				pedantic: false,
+				sanitize: false,
+				smartLists: true,
+				smartypants: false,
+				langPrefix: 'lang-'
+			};
+			marked.setOptions(options);
+			
+			var that = this;
+			this.$.banner.querySelector("img.toc").addEventListener("click", function() {
+				that.toggleToc();
+			},false);
+			
+			this.toHTML();
+		},
+		showToc: function() {
+			this.$.toc.style.display = "block";
+		},
+		hideToc: function() {
+			this.$.toc.style.display = "none";
+		},
+		toggleToc: function() {
+			this.$.toc.style.display = this.$.toc.style.display==="block"?"none":"block";
+		},
+		toHTML: function() {
+			var text = "";
+			
+			if(this.src) {
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET",this.src,false);
+				xhr.send(null);
+				text = xhr.responseText;    
+			} else {
+				text = this.textContent;
+			}
+			
+			var that= this;
+				
+			marked(text, {}, function (err, content) {
+				var div = document.createElement("div");
+				div.innerHTML = content;
+				
+				var appPath = window.location.href.slice(0,window.location.href.lastIndexOf("/"));
+				if( that.path && appPath.match(/^file:\/\/\//)) {
+					var imgs = div.querySelectorAll("img");
+					// console.log("images:",imgs.length);
+					imgs = [].slice.call(imgs,0);
+					imgs.forEach( function(img) {
+						var src = img.src;
+						img.src = img.src.replace(appPath,"file://"+that.path);
+					})
+					content = div.innerHTML;
+				}
+		    	that.$.markdown.innerHTML = content;
+                that.$.markdown.scrollTop = 0;
+		
+				var links = that.$.markdown.querySelectorAll("a[href]");
+				links = [].slice.call(links,0);
+				links.forEach( function(link) {
+					link.addEventListener("click", function(e) {
+						e.preventDefault();
+						var type;
+						var href = this.getAttribute("href");
+						if( href.match(/.md(#.*)?$/) ) type = "markdown";
+						if( href.match(/^http:/)) type = "external"
+						that.fire("link",{ href:href, type:type });
+						return false;
+					}, false);
+				});
+                
+				if(div.querySelector("header")) { 
+					that.meta = {
+						title:  div.querySelector("header .title").innerText,
+						author: div.querySelector("header .author").innerText,
+						date:   div.querySelector("header .date").innerText
+					}
+				} else {
+					that.meta = {
+						title:"",
+						author:"",
+						date:""
+					};
+				}
+				
+				var list = div.querySelectorAll("h1,h2,h3,h4,h5,h6");
+				var toc = "";
+				for(var i=0;i<list.length;i++) {
+					var level = +list.item(i).tagName.substr(1);
+					if(level < 4 ) {
+						toc+= "<a href='#"+list.item(i).id+"'>";
+						toc+= "<div class='tm"+level+"'>"+list.item(i).textContent+"</div></a>\n"
+					}
+				}
+				that.$.toc.innerHTML = toc;
+				
+				that.$.banner.querySelector(".title").innerHTML  = that.meta.title;
+				that.$.banner.querySelector(".author").innerHTML = that.meta.author;
+				that.$.banner.querySelector(".date").innerHTML   = that.meta.date;
+				
+				that.fire("parsed");
+			});
+		
+			this.onMutation(this, this.toHTML);
+		}
+	});
+	</script>
+</polymer-element>

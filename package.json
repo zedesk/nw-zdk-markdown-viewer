@@ -1,0 +1,29 @@
+{
+  "name": "zeDesk-MMD",
+  "preferGlobal": false,
+  "version": "0.0.2",
+  "author": "zeDesk",
+  "description": "A markdown viewer and editor",
+  "contributors": [
+    {
+      "name": "Fabrice Le Coz",
+      "email": "fabrice.lecoz@zedesk.net"
+    }
+  ],
+  "scripts": {
+    "start": "nw nw",
+	"install":"cd nw; bower install"
+  },
+  "main": "s",
+  "repository": {
+    "type": "git",
+    "url": "http://git.zedesk.net/fablec/mmd.git"
+  },
+  "dependencies": {
+  },
+  "analyze": false,
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-node-webkit-builder": "~0.1.21"
+  }
+}
