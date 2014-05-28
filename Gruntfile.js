@@ -1,3 +1,7 @@
+"use strict";
+
+/* jshint node:true */
+
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -10,9 +14,9 @@ module.exports = function(grunt) {
                 linux32: true,
                 linux64: true
             },
-            src: ['./nw/**/*']
+            src: ['./src/**/*']
         }
-    })
+    });
 
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.registerTask('default', ['nodewebkit']);

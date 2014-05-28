@@ -2,6 +2,7 @@
 
 /*jslint node: true */
 /*jslint browser: true*/
+/*jslint esnext:true */
 
 var fs = require("fs");
 var os = require("os");
@@ -23,8 +24,10 @@ if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 }
 window.addEventListener("DOMContentLoaded", initApp, false);
 
+var app;
 function initApp() {
-	new App().run();
+	app = new App();
+    app.run();
 }
 
 function App() {
@@ -36,18 +39,23 @@ function App() {
 		
 		return new Promise(function(resolve, reject) {
 			fs.readdir( dir, function(err,list) {
+                if(err) {
+                    console.error(err);
+                    reject(err);
+                }
 				var ul = document.querySelector("nav ul");
 				ul.innerHTML = "";
 				var li;
 			
 				var count = list.length;
-				if(!count) { dfd.resolve(); }
+				if(!count) { resolve(); }
 			
 				if(dir != "/") {
 					li = document.createElement("li");
 					li.innerHTML = "..";
 					var func = function() { 
 						dir = dir.slice(0,dir.lastIndexOf("/")); 
+                        if(!dir.length) { dir = "/"; }
 						that.getMdFiles();
 					};
 					li.addEventListener("click",func,false);
@@ -116,10 +124,10 @@ function App() {
 	this.open = function(file) {
 		return new Promise(function(resolve, reject) {
 			var zdkMarked = document.querySelector("zdk-marked");
-			var iframe = document.querySelector("iframe#ext");
-			if(iframe.style.display === "block") {
-				iframe.src = "about:blank";
-				iframe.style.display = "none";
+			var internet = document.querySelector("#internet");
+			if(internet.style.display === "flex") {
+				internet.querySelector("iframe").src = "about:blank";
+				internet.style.display = "none";
 	        }
 			zdkMarked.setAttribute("path",dir);
 		
@@ -132,6 +140,14 @@ function App() {
 			});
 		});
 	};
+    
+    this.closeBrowser = function() {
+        var internet = document.querySelector("#internet");
+        if(internet.style.display === "flex") {
+			internet.querySelector("iframe").src = "about:blank";
+			internet.style.display = "none";
+	    }
+    };
 	
 	this.run = function() {
         var that = this;
@@ -139,13 +155,13 @@ function App() {
         zdkMarked.addEventListener("link", function(e) {
             var link = e.detail;
             switch( link.type ) {
+                case "markdown":
+                    that.open(link.href);
+                    break;
                 case "external" :
                     var iframe = document.querySelector("iframe#ext");
                     iframe.src = link.href;
-                    iframe.style.display = "block";
-                    break;
-                case "markdown":
-                    that.open(link.href);
+                    document.querySelector("#internet").style.display = "flex";
                     break;
             }
         },false);

@@ -106,7 +106,7 @@
 						var type;
 						var href = this.getAttribute("href");
 						if( href.match(/.md(#.*)?$/) ) type = "markdown";
-						if( href.match(/^http:/)) type = "external"
+						if( href.match(/^(http|https):/)) type = "external"
 						that.fire("link",{ href:href, type:type });
 						return false;
 					}, false);
