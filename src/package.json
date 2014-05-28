@@ -19,7 +19,7 @@
   "window": {
     "title": "zeDesk markdown",
     "icon": "img/MMD.png",
-    "toolbar": true,
+    "toolbar": false,
     "frame": true,
     "width": 800,
     "height": 600,
