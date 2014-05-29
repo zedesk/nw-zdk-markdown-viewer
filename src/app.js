@@ -131,10 +131,10 @@ function App() {
 	        }
 			zdkMarked.setAttribute("path",dir);
 		
-			fs.readFile( dir+"/"+file, function(err, data) {
+			fs.readFile( dir+"/"+file, {encoding:'utf-8'}, function(err, data) {
 				if(err) reject(err);
 			
-				zdkMarked.innerHTML = data;
+				zdkMarked.textContent = data;
 			
 				resolve();
 			});
