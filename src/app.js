@@ -7,73 +7,75 @@
 var fs = require("fs");
 var os = require("os");
 var gui = require("nw.gui");
+var path = require("path");
 
 var dir;
 if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
-    dir = gui.App.argv[0];
+	dir = gui.App.argv[0];
 } else {
-    dir = gui.App.dataPath;
-    switch(os.platform()) {
-        case "darwin":
-            dir = dir.slice(0,dir.lastIndexOf("/Library"));
-            break;
-        case "linux":
-            dir = dir.slice(0,dir.lastIndexOf("/.config"));
-            break;
-    }
+	dir = gui.App.dataPath;
+	switch(os.platform()) {
+		case "darwin":
+			dir = dir.slice(0,dir.lastIndexOf("/Library"));
+			break;
+		case "linux":
+			dir = dir.slice(0,dir.lastIndexOf("/.config"));
+			break;
+	}
 }
 window.addEventListener("DOMContentLoaded", initApp, false);
 
 var app;
 function initApp() {
 	app = new App();
-    app.run();
+	app.run();
 }
 
 function App() {
 	
+	var watchFile = null;
+	
 	this.nav = document.querySelector("nav ul");
 	
-    /**
-    * Allows drag and drop
-    */
-    (function(that) {
-        var dropbox = document.querySelector("html");
-    	dropbox.ondragover = function () { return false; };
-        dropbox.ondragend = function ()  { return false; };
-        dropbox.addEventListener("drop",drop,false);
-        function drop(e) {
-            e.stopPropagation();  
-            e.preventDefault();
-
-            var file = e.dataTransfer.files[0];
-
-            var stats = fs.statSync(file.path);
-            if( stats.isDirectory() ) {
-                dir = file.path;
-                that.getMdFiles.call(that);
-            } else {
-                var path = require("path");
-                dir = path.dirname(file.path);
-                that.getMdFiles.call(that)
-                    .then( function() {
-                        that.open.call(that,path.basename(file.path));
-                    });
-            }
-
-            return false;
-        }
-    })(this);
+	/**
+	* Allows drag and drop
+	*/
+	(function(that) {
+		var dropbox = document.querySelector("html");
+		dropbox.ondragover = function () { return false; };
+		dropbox.ondragend = function ()  { return false; };
+		dropbox.addEventListener("drop",drop,false);
+		function drop(e) {
+			e.stopPropagation();  
+			e.preventDefault();
+			
+			var file = e.dataTransfer.files[0];
+			
+			var stats = fs.statSync(file.path);
+			if( stats.isDirectory() ) {
+				dir = file.path;
+				that.getMdFiles.call(that);
+			} else {
+				dir = path.dirname(file.path);
+				that.getMdFiles.call(that)
+					.then( function() {
+						that.open.call(that,path.basename(file.path));
+					});
+			}
+			
+			return false;
+		}
+	})(this);
     
 	this.getMdFiles = function() {
 		var that = this;
 		
 		return new Promise(function(resolve, reject) {
 			fs.readdir( dir, function(err,list) {
-                if(err) {
-                    console.error(err);
-                    reject(err);
-                }
+				if(err) {
+					console.error(err);
+					reject(err);
+				}
 				var ul = document.querySelector("nav ul");
 				ul.innerHTML = "";
 				var li;
@@ -93,7 +95,7 @@ function App() {
 					ul.appendChild(li);
 				}
 				var folders = document.createDocumentFragment();
-			
+				
 				function getStat(file) {
 					return new Promise(function(resolve, reject) {
 						fs.stat( dir+"/"+file, function(err, stats) {
@@ -106,18 +108,18 @@ function App() {
 				list.forEach( function(file) {
 					getStat(file)
 						.then( function(stats) {
-	                        var func = null;
+							var func = null;
                         
 							li = document.createElement("li");
 							if( /^[^\.]/.test(file) ) {
 								if(stats.isFile() && /\.md$/.test(file)) {
 									li.innerHTML = file;
 									func = function() { 
-	                                    var selected = ul.querySelector("li.select");
-	                                    if(selected) selected.classList.remove("select");
-	                                    this.classList.add("select");
-	                                    that.open(file); 
-	                                };
+										var selected = ul.querySelector("li.select");
+										if(selected) selected.classList.remove("select");
+										this.classList.add("select");
+										that.open(file); 
+									};
 									li.addEventListener("click",func,false);
 									ul.appendChild(li);
 								}
@@ -141,7 +143,7 @@ function App() {
 							}
 						})
 						.catch( function(err) {
-							console.error(err);
+							// console.error(err);
 							if(--count === 0) { 
 								ul.appendChild(folders);
 								resolve();
@@ -153,50 +155,69 @@ function App() {
 	};
 	
 	this.open = function(file) {
+		var that = this;
+		
 		return new Promise(function(resolve, reject) {
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
 			if(internet.style.display === "flex") {
 				internet.querySelector("iframe").src = "about:blank";
 				internet.style.display = "none";
-	        }
+			}
 			zdkMarked.setAttribute("path",dir);
-            zdkMarked.removeAttribute("src");
+			zdkMarked.removeAttribute("src");
             
 			fs.readFile( dir+"/"+file, {encoding:'utf-8'}, function(err, data) {
 				if(err) reject(err);
-			
+				
 				zdkMarked.textContent = data;
-			
+				_watch.call( that, dir+"/"+file );
+				
 				resolve();
 			});
 		});
 	};
-    
-    this.closeBrowser = function() {
-        var internet = document.querySelector("#internet");
-        if(internet.style.display === "flex") {
+	
+	function _watch( filePath ) {
+		if (watchFile) {
+			if( watchFile !== filePath ) {
+				fs.unwatchFile(watchFile);
+			} else {
+				return;
+			}
+		}
+		
+		var that= this;
+		watchFile = filePath;
+		fs.watchFile(watchFile, function (evt, filename) {
+			that.open( path.basename(filePath) );
+		});
+	};
+	
+	this.closeBrowser = function() {
+		var internet = document.querySelector("#internet");
+		if(internet.style.display === "flex") {
 			internet.querySelector("iframe").src = "about:blank";
 			internet.style.display = "none";
 	    }
     };
 	
 	this.run = function() {
-        var that = this;
-        var zdkMarked = document.querySelector("zdk-marked");
-        zdkMarked.addEventListener("link", function(e) {
-            var link = e.detail;
-            switch( link.type ) {
-                case "markdown":
-                    that.open(link.href);
-                    break;
-                case "external" :
-                    var iframe = document.querySelector("iframe#ext");
-                    iframe.src = link.href;
-                    document.querySelector("#internet").style.display = "flex";
-                    break;
-            }
-        },false);
+		var that = this;
+		var zdkMarked = document.querySelector("zdk-marked");
+		zdkMarked.addEventListener("link", function(e) {
+			var link = e.detail;
+			switch( link.type ) {
+				case "markdown":
+					that.open(link.href);
+					break;
+				case "external" :
+					var iframe = document.querySelector("iframe#ext");
+					iframe.src = link.href;
+					document.querySelector("#internet").style.display = "flex";
+					break;
+			}
+		},false);
 		this.getMdFiles();
 	};
 }
