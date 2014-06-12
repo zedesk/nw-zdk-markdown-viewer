@@ -87,7 +87,7 @@
 				var appPath = window.location.href.slice(0,window.location.href.lastIndexOf("/"));
 				if( that.path && appPath.match(/^file:\/\/\//)) {
 					var imgs = div.querySelectorAll("img");
-					// console.log("images:",imgs.length);
+					
 					imgs = [].slice.call(imgs,0);
 					imgs.forEach( function(img) {
 						var src = img.src;
@@ -136,6 +136,10 @@
 					}
 				}
 				that.$.toc.innerHTML = toc;
+                
+                [].slice.call(that.$.toc.querySelectorAll("a[href]"),0).forEach( function(item) {
+                    item.addEventListener("mouseup",function() {that.toggleToc.call(that)}, false);
+                });
 				
 				that.$.banner.querySelector(".title").innerHTML  = that.meta.title;
 				that.$.banner.querySelector(".author").innerHTML = that.meta.author;

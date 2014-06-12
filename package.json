@@ -1,7 +1,7 @@
 {
   "name": "zeDesk-MMD",
   "preferGlobal": false,
-  "version": "0.0.2-pre",
+  "version": "0.0.3-pre",
   "author": "zeDesk",
   "description": "A markdown viewer and editor",
   "contributors": [
@@ -11,10 +11,10 @@
     }
   ],
   "scripts": {
-    "start": "nw nw",
-	"install":"cd nw; bower install"
+    "start": "nw src",
+	"install":"cd src; bower install"
   },
-  "main": "s",
+  "main": "src/index.htm",
   "repository": {
     "type": "git",
     "url": "git@github.com:zedesk/nw-zdk-markdown-viewer.github"
