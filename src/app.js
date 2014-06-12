@@ -34,6 +34,37 @@ function App() {
 	
 	this.nav = document.querySelector("nav ul");
 	
+    /**
+    * Allows drag and drop
+    */
+    (function(that) {
+        var dropbox = document.querySelector("html");
+    	dropbox.ondragover = function () { return false; };
+        dropbox.ondragend = function ()  { return false; };
+        dropbox.addEventListener("drop",drop,false);
+        function drop(e) {
+            e.stopPropagation();  
+            e.preventDefault();
+
+            var file = e.dataTransfer.files[0];
+
+            var stats = fs.statSync(file.path);
+            if( stats.isDirectory() ) {
+                dir = file.path;
+                that.getMdFiles.call(that);
+            } else {
+                var path = require("path");
+                dir = path.dirname(file.path);
+                that.getMdFiles.call(that)
+                    .then( function() {
+                        that.open.call(that,path.basename(file.path));
+                    });
+            }
+
+            return false;
+        }
+    })(this);
+    
 	this.getMdFiles = function() {
 		var that = this;
 		
@@ -130,7 +161,8 @@ function App() {
 				internet.style.display = "none";
 	        }
 			zdkMarked.setAttribute("path",dir);
-		
+            zdkMarked.removeAttribute("src");
+            
 			fs.readFile( dir+"/"+file, {encoding:'utf-8'}, function(err, data) {
 				if(err) reject(err);
 			
