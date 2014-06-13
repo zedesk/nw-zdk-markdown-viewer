@@ -111,6 +111,8 @@ div#internet div.banner {
     height:70px;
     background: #234023;
     text-align: right;
+    display: flex;
+    align-items: center;
 }
 iframe#ext {
     flex:1;
