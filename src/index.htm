@@ -11,20 +11,30 @@
 </head>
 <body>
 	<nav>
-        <div>
-            <img src="img/MMD.png">
-            <span>zdk markdown</span>
-        </div>
-		<ul></ul>
+		<header>
+			<img src="img/MMD.png">
+			<span>zdk markdown</span>
+		</header>
+		<div id="history" class="menu">
+			<header>History</header>
+			<ul style="height: 200px;display: none;"></ul>
+		</div>
+		<div id="directory" class="menu" style="flex:1">
+			<header>
+				<div class="title">Home</div>
+				<div class="tip">Home</div>
+			</header>
+			<ul></ul>
+		</div>
 	</nav>
 	<section>
 		<zdk-marked src="README.md"></zdk-marked>
-        <div id="internet">
-            <div class="banner">
-                <img src="img/close.png" onclick="app.closeBrowser()">
-            </div>
-        <iframe nwdisable nwfaketop id="ext"></iframe>
-        </div>
+		<div id="internet">
+			<div class="banner">
+				<img src="img/close.png" onclick="app.closeBrowser()">
+			</div>
+		<iframe nwdisable nwfaketop id="ext"></iframe>
+		</div>
 	</section>
 </body>
 </html>

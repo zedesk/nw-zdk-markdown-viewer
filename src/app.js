@@ -34,7 +34,8 @@ function initApp() {
 function App() {
 	
 	var watchFile = null;
-	
+	var watchDir = null;
+
 	this.nav = document.querySelector("nav ul");
 	
 	/**
@@ -66,6 +67,32 @@ function App() {
 			return false;
 		}
 	})(this);
+
+	/**
+	 * Show tip on directory
+	 */
+	(function() {
+		document.querySelector("#directory header").addEventListener("mouseover", function() {
+			this.querySelector(".tip").style.display = "block";
+		});
+		document.querySelector("#directory header").addEventListener("mouseout", function() {
+			this.querySelector(".tip").style.display = "none";
+		});
+	})();
+
+	/**
+	 * Show history panel
+	 */
+	(function() {
+		document.querySelector("#history header").addEventListener("click", function() {
+			var history = this.parentElement;
+			if(history.querySelector("ul").style.display === "block") {
+				history.querySelector("ul").style.display = "none";
+			} else {
+				history.querySelector("ul").style.display = "block";
+			}
+		});
+	})();
     
 	this.getMdFiles = function() {
 		var that = this;
@@ -76,14 +103,16 @@ function App() {
 					console.error(err);
 					reject(err);
 				}
-				var ul = document.querySelector("nav ul");
+				var ul = document.querySelector("#directory ul");
 				ul.innerHTML = "";
 				var li;
 			
 				var count = list.length;
 				if(!count) { resolve(); }
-			
+
+				document.querySelector("#directory header .tip").innerHTML = dir;
 				if(dir != "/") {
+					document.querySelector("#directory header .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
 					li = document.createElement("li");
 					li.innerHTML = "..";
 					var func = function() { 
@@ -93,6 +122,8 @@ function App() {
 					};
 					li.addEventListener("click",func,false);
 					ul.appendChild(li);
+				} else {
+					document.querySelector("#directory header .title").innerHTML = "/";
 				}
 				var folders = document.createDocumentFragment();
 				
@@ -121,6 +152,9 @@ function App() {
 										that.open(file); 
 									};
 									li.addEventListener("click",func,false);
+									if(watchFile && watchFile === dir+"/"+file) {
+										li.classList.add("select");
+									}
 									ul.appendChild(li);
 								}
 								if(stats.isDirectory()) {
@@ -139,6 +173,7 @@ function App() {
 						.then( function() {
 							if(--count === 0) { 
 								ul.appendChild(folders);
+								_watchDir.call( that );
 								resolve();
 							}
 						})
@@ -146,6 +181,7 @@ function App() {
 							// console.error(err);
 							if(--count === 0) { 
 								ul.appendChild(folders);
+								_watchDir.call( that );
 								resolve();
 							}
 						});
@@ -153,7 +189,23 @@ function App() {
 			});
 		});
 	};
-	
+
+	function _watchDir( ) {
+		if (watchDir) {
+			if( watchDir !== dir ) {
+				fs.unwatchFile(watchDir);
+			} else {
+				return;
+			}
+		}
+
+		var that= this;
+		watchDir = dir;
+		fs.watchFile(watchDir, function (evt, filename) {
+			that.getMdFiles( );
+		});
+	};
+
 	this.open = function(file) {
 		var that = this;
 		
@@ -171,14 +223,14 @@ function App() {
 				if(err) reject(err);
 				
 				zdkMarked.textContent = data;
-				_watch.call( that, dir+"/"+file );
+				_watchFile.call( that, dir+"/"+file );
 				
 				resolve();
 			});
 		});
 	};
 	
-	function _watch( filePath ) {
+	function _watchFile( filePath ) {
 		if (watchFile) {
 			if( watchFile !== filePath ) {
 				fs.unwatchFile(watchFile);
