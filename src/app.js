@@ -213,7 +213,7 @@ function App() {
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
 			if(internet.style.display === "flex") {
-				internet.querySelector("iframe").src = "about:blank";
+				internet.querySelector("iframe").src = "load.htm";
 				internet.style.display = "none";
 			}
 			zdkMarked.setAttribute("path",dir);
@@ -249,7 +249,7 @@ function App() {
 	this.closeBrowser = function() {
 		var internet = document.querySelector("#internet");
 		if(internet.style.display === "flex") {
-			internet.querySelector("iframe").src = "about:blank";
+			internet.querySelector("iframe").src = "load.htm";
 			internet.style.display = "none";
 	    }
     };
