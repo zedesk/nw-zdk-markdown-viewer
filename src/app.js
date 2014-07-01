@@ -189,7 +189,7 @@ function App() {
 						.then( function() {
 							if(--count === 0) { 
 								ul.appendChild(folders);
-								_watchDir.call( that );
+								_watchDir( that );
 								resolve();
 							}
 						})
@@ -197,7 +197,7 @@ function App() {
 							// console.error(err);
 							if(--count === 0) { 
 								ul.appendChild(folders);
-								_watchDir.call( that );
+								_watchDir( that );
 								resolve();
 							}
 						});
@@ -206,7 +206,7 @@ function App() {
 		});
 	};
 
-	function _watchDir( ) {
+	function _watchDir( App ) {
 		if (watchDir) {
 			if( watchDir !== dir ) {
 				fs.unwatchFile(watchDir);
@@ -215,12 +215,12 @@ function App() {
 			}
 		}
 
-		var that= this;
+		// var that = this;
 		watchDir = dir;
 		fs.watchFile(watchDir, function (evt, filename) {
-			that.getMdFiles( );
+			App.getMdFiles( );
 		});
-	};
+	}
 
 	this.open = function(file) {
 		var that = this;
@@ -239,14 +239,14 @@ function App() {
 				if(err) reject(err);
 				
 				zdkMarked.textContent = data;
-				_watchFile.call( that, dir+"/"+file );
+				_watchFile( that, dir+"/"+file );
 				
 				resolve();
 			});
 		});
 	};
 	
-	function _watchFile( filePath ) {
+	function _watchFile( App, filePath ) {
 		if (watchFile) {
 			if( watchFile !== filePath ) {
 				fs.unwatchFile(watchFile);
@@ -255,12 +255,12 @@ function App() {
 			}
 		}
 		
-		var that= this;
+		// var that= this;
 		watchFile = filePath;
 		fs.watchFile(watchFile, function (evt, filename) {
-			that.open( path.basename(filePath) );
+			App.open( path.basename(filePath) );
 		});
-	};
+	}
 	
 	this.closeBrowser = function() {
 		var internet = document.querySelector("#internet");
