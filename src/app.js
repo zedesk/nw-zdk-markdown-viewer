@@ -281,6 +281,8 @@ function App() {
 					break;
 				case "external" :
 					var iframe = document.querySelector("iframe#ext");
+					document.querySelector("#internet .title").innerHTML = "Loading ...";
+					document.querySelector("#internet .url").innerHTML = "";
 					iframe.src = link.href;
 					document.querySelector("#internet").style.display = "flex";
 					break;
