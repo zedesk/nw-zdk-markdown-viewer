@@ -93,6 +93,19 @@ function App() {
 			}
 		});
 	})();
+	
+	/**
+	* Get Title of the iframe
+	*/
+	( function() {
+		var iframe = document.querySelector("iframe#ext");
+		iframe.addEventListener("load", function() {
+			if(iframe.contentDocument.title !== "Load page") {
+				document.querySelector("#internet .title").innerHTML = iframe.contentDocument.title;
+				document.querySelector("#internet .url").innerHTML = iframe.contentWindow.location;
+			}
+		}, false);
+	})();
     
 	this.getMdFiles = function() {
 		var that = this;

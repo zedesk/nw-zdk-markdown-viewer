@@ -114,6 +114,27 @@ div#internet div.banner {
     display: flex;
     align-items: center;
 }
+
+div#internet div.banner div.content {
+	flex:1;
+	overflow: hidden;
+	padding:0px 10px;
+	color:white;
+}
+
+div#internet div.banner span {
+	display:block;
+	text-align:left;
+	white-space: pre;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+div#internet div.banner .title {
+	font-size:16px;
+	font-weight:bold;
+}
+
 iframe#ext {
     flex:1;
     background: aliceblue;
