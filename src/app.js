@@ -11,7 +11,10 @@ var path = require("path");
 
 var dir;
 if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
-	dir = gui.App.argv[0];
+	dir = path.normalize(gui.App.argv[0]);
+	if([".",".."].indexOf(dir) !== -1 ) {
+		dir = path.normalize(process.env.PWD+"/"+dir);
+	}
 } else {
 	dir = gui.App.dataPath;
 	switch(os.platform()) {
