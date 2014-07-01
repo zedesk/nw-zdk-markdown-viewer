@@ -1,32 +1,36 @@
 {
-  "name": "zdk-Markdown-Viewer",
-  "main": "index.htm",
-  "version": "0.0.4-pre",
-  "description": "A node-webkit application to read markdown files",
-  "author": "zedesk.net <dev@zedesk.net>",
-  "contributors": [
-    {
-      "name": "Fabrice Le Coz",
-      "email": "fabrice.lecoz@zedesk.net"
-    }
-  ],
-  "keywords": [
-    "node-webkit",
-    "zedesk.net",
-    "markdown"
-  ],
-  "dependencies": {},
-  "window": {
-    "title": "zeDesk markdown",
-    "icon": "img/MMD.png",
-    "toolbar": false,
-    "frame": true,
-    "width": 800,
-    "height": 600,
-    "position": "mouse",
-    "min_width": 800,
-    "min_height": 600
-  },
-  "licence": "MIT",
-  "devDependencies": {}
+	"name": "zdk-Markdown-Viewer",
+	"main": "index.htm",
+	"version": "0.0.4-pre",
+	"description": "A node-webkit application to read markdown files",
+	"author": "zedesk.net <dev@zedesk.net>",
+	"contributors": [
+		{
+			"name": "Fabrice Le Coz",
+			"email": "fabrice.lecoz@zedesk.net"
+		}
+	],
+	"keywords": [
+		"node-webkit",
+		"zedesk.net",
+		"markdown"
+	],
+	"dependencies": {},
+	"single-instance":false,
+	"window": {
+		"title": "zeDesk markdown",
+		"icon": "img/MMD.png",
+		"toolbar": false,
+		"frame": true,
+		"width": 800,
+		"height": 600,
+		"position": "mouse",
+		"min_width": 800,
+		"min_height": 600
+	},
+	"webkit": {
+		"plugin":true
+	},
+	"licence": "MIT",
+	"devDependencies": {}
 }
