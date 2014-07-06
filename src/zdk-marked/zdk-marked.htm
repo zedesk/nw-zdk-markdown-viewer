@@ -65,6 +65,10 @@
 			this.$.markdown.scrollTop = parseInt(newValue,10);
 			this.setAttribute('scroll', newValue );
 		},
+		pathChanged: function(oldValue, newValue) {
+			if( newValue === oldValue ) return;
+			this.setAttribute('scroll', 0 );
+		},
 		showToc: function() {
 			this.$.toc.style.display = "block";
 		},
