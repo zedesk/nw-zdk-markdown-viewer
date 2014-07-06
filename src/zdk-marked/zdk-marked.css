@@ -29,18 +29,23 @@ div#toc {
 	box-shadow: 5px 5px 10px #999;
 	position: absolute;
 	width: 250px;
-	overflow: auto;
 	position: absolute;
 	top: 0px;
 	right: 20px;
 	background: white;
 	margin-top: 90px;
 	display:none;
+	max-height:60%;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 div#toc div { white-space: nowrap; }
 div#toc div.tm1 { font-weight:bold; }
-div#toc div.tm2 { margin-left:15px }
-div#toc div.tm3 { margin-left:30px }
+div#toc div.tm2 { margin-left:10px }
+div#toc div.tm3 { margin-left:20px }
+div#toc div.tm4 { margin-left:30px }
+div#toc div.tm5 { margin-left:40px }
+div#toc div.tm6 { margin-left:50px }
 div#toc a { text-decoration:none; color: black; }
 div#toc a:visited { color:inherit; }
 
