@@ -2,7 +2,7 @@
 <script src="marked.js"></script>
 <script src="../bower_components/highlightjs/highlight.pack.js"></script>
 
-<polymer-element name="zdk-marked" attributes="src path">
+<polymer-element name="zdk-marked" attributes="src path scroll">
 	<template>
 		<link rel="stylesheet" href="zdk-marked.css">
 		<link rel="stylesheet" href="../bower_components/highlightjs/styles/magula.css">
@@ -56,6 +56,14 @@
 			},false);
 			
 			this.toHTML();
+			
+			this.$.markdown.addEventListener("scroll", function(evt) {
+				that.setAttribute("scroll",that.$.markdown.scrollTop);
+			}, false);
+		},
+		scrollChanged: function(oldValue, newValue) {
+			this.$.markdown.scrollTop = parseInt(newValue,10);
+			this.setAttribute('scroll', newValue );
 		},
 		showToc: function() {
 			this.$.toc.style.display = "block";
@@ -96,7 +104,14 @@
 					content = div.innerHTML;
 				}
 		    	that.$.markdown.innerHTML = content;
-                that.$.markdown.scrollTop = 0;
+				if( that.scroll) {
+					console.log("scroll value ", that.scroll );
+					that.$.markdown.scrollTop = parseInt(that.scroll,10);
+				} else {
+					console.log("no scroll value");
+                	that.$.markdown.scrollTop = 0;
+					that.setAttribute("scroll",0);
+				}
 		
 				var links = that.$.markdown.querySelectorAll("a[href]");
 				links = [].slice.call(links,0);
