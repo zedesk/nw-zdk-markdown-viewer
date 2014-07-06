@@ -228,11 +228,15 @@ function App() {
 		return new Promise(function(resolve, reject) {
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
+			
 			if(internet.style.display === "flex") {
 				internet.querySelector("iframe").src = "load.htm";
 				internet.style.display = "none";
 			}
-			zdkMarked.setAttribute("path",dir);
+			var filePath = dir + "/" + file;
+			if( zdkMarked.getAttribute("path") !== filePath) {
+				zdkMarked.setAttribute("path",filePath);
+			}
 			zdkMarked.removeAttribute("src");
             
 			fs.readFile( dir+"/"+file, {encoding:'utf-8'}, function(err, data) {
@@ -255,7 +259,6 @@ function App() {
 			}
 		}
 		
-		// var that= this;
 		watchFile = filePath;
 		fs.watchFile(watchFile, function (evt, filename) {
 			App.open( path.basename(filePath) );
