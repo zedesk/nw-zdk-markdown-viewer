@@ -2,7 +2,7 @@
 <script src="marked.js"></script>
 <script src="../bower_components/highlightjs/highlight.pack.js"></script>
 
-<polymer-element name="zdk-marked" attributes="src path scroll">
+<polymer-element name="zdk-marked" attributes="src path scroll toclevel">
 	<template>
 		<link rel="stylesheet" href="zdk-marked.css">
 		<link rel="stylesheet" href="../bower_components/highlightjs/styles/magula.css">
@@ -31,6 +31,8 @@
 	Polymer('zdk-marked',{
 		src : "",
 		path: "",
+		toclevel: 3,
+		scroll: 0,
 		
 		ready : function() {
 			hljs.initHighlightingOnLoad();
@@ -77,6 +79,28 @@
 		},
 		toggleToc: function() {
 			this.$.toc.style.display = this.$.toc.style.display==="block"?"none":"block";
+		},
+		calcToc: function() {
+			var list = this.$.markdown.querySelectorAll("h1,h2,h3,h4,h5,h6");
+			var toc = "";
+			for(var i=0;i<list.length;i++) {
+				var level = +list.item(i).tagName.substr(1);
+				if(level <= this.toclevel ) {
+					toc+= "<a href='#"+list.item(i).id+"'>";
+					toc+= "<div class='tm"+level+"'>"+list.item(i).textContent+"</div></a>\n"
+				}
+			}
+			this.$.toc.innerHTML = toc;
+			
+			var that = this;
+			[].slice.call(that.$.toc.querySelectorAll("a[href]"),0).forEach( function(item) {
+				item.addEventListener("mouseup",function() {that.toggleToc.call(that)}, false);
+			});
+		},
+		toclevelChanged: function(oldValue, newValue) {
+			if( oldValue === newValue ) return;
+			this.setAttribute("toclevel",newValue);
+			this.calcToc();
 		},
 		toHTML: function() {
 			var text = "";
@@ -145,20 +169,7 @@
 					};
 				}
 				
-				var list = div.querySelectorAll("h1,h2,h3,h4,h5,h6");
-				var toc = "";
-				for(var i=0;i<list.length;i++) {
-					var level = +list.item(i).tagName.substr(1);
-					if(level < 4 ) {
-						toc+= "<a href='#"+list.item(i).id+"'>";
-						toc+= "<div class='tm"+level+"'>"+list.item(i).textContent+"</div></a>\n"
-					}
-				}
-				that.$.toc.innerHTML = toc;
-                
-                [].slice.call(that.$.toc.querySelectorAll("a[href]"),0).forEach( function(item) {
-                    item.addEventListener("mouseup",function() {that.toggleToc.call(that)}, false);
-                });
+				that.calcToc();
 				
 				that.$.banner.querySelector(".title").innerHTML  = that.meta.title;
 				that.$.banner.querySelector(".author").innerHTML = that.meta.author;
