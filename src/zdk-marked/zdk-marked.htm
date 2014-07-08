@@ -127,7 +127,7 @@
 					imgs = [].slice.call(imgs,0);
 					imgs.forEach( function(img) {
 						var src = img.src;
-						img.src = img.src.replace(appPath,"file://"+that.path);
+						img.src = img.src.replace(appPath,"file://"+that.path.slice(0,that.path.lastIndexOf("/")));
 					})
 					content = div.innerHTML;
 				}
