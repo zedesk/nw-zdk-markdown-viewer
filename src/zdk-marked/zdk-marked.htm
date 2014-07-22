@@ -133,10 +133,8 @@
 				}
 		    	that.$.markdown.innerHTML = content;
 				if( that.scroll) {
-					console.log("scroll value ", that.scroll );
 					that.$.markdown.scrollTop = parseInt(that.scroll,10);
 				} else {
-					console.log("no scroll value");
                 	that.$.markdown.scrollTop = 0;
 					that.setAttribute("scroll",0);
 				}
