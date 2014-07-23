@@ -47,6 +47,12 @@ nav div.menu header {
     box-sizing: border-box;
 }
 
+nav div.menu header .title {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
 div.menu ul {
     margin-top: 0px;
     flex: 1;
@@ -57,7 +63,10 @@ div.menu ul {
 }
 div.menu ul li {
 	line-height: 30px;
-    padding-left: 20px;
+  padding-left: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 div.menu ul li.select {
     background: white;
