@@ -274,6 +274,8 @@ function App() {
     };
 	
 	this.run = function() {
+		var spawn = require('child_process').spawn,
+		    os    = require("os");
 		var that = this;
 		var zdkMarked = document.querySelector("zdk-marked");
 		zdkMarked.addEventListener("link", function(e) {
@@ -281,6 +283,28 @@ function App() {
 			switch( link.type ) {
 				case "markdown":
 					that.open(link.href);
+					break;
+				case "pdf":
+				case "internal":
+					var openCmd;
+					switch( os.platform() ) {
+						case "darwin" :
+							openCmd = "open";
+							break;
+						case "linux":
+							openCmd = "xdg-open";
+							break;
+					}
+					
+					var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
+					
+					/*
+					var iframe = document.querySelector("iframe#ext");
+					document.querySelector("#internet .title").innerHTML = "Loading ...";
+					document.querySelector("#internet .url").innerHTML = "";
+					iframe.src = "file://"+dir+"/"+link.href;
+					document.querySelector("#internet").style.display = "flex
+					*/
 					break;
 				case "external" :
 					var iframe = document.querySelector("iframe#ext");
