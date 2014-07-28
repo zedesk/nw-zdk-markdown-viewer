@@ -146,7 +146,9 @@
 						e.preventDefault();
 						var type;
 						var href = this.getAttribute("href");
+						type = "internal";
 						if( href.match(/.md(#.*)?$/) ) type = "markdown";
+						if( href.match(/.pdf$/) ) type = "pdf";
 						if( href.match(/^(http|https):/)) type = "external"
 						that.fire("link",{ href:href, type:type });
 						return false;
