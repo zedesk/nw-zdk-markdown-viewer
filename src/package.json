@@ -1,7 +1,7 @@
 {
   "name": "zdk-Markdown-Viewer",
   "main": "index.htm",
-  "version": "0.0.4-pre",
+  "version": "0.1.0",
   "description": "A node-webkit application to read markdown files",
   "author": "zedesk.net <dev@zedesk.net>",
   "contributors": [

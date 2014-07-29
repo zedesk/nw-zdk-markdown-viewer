@@ -2,6 +2,14 @@
 % zedesk.net
 % June 2014
 
+# v0.1.0 ( 2014-07-29 )
+
+  - Adopt [Semantic Versioning 2.0.0](http://semver.org/) for version number
+  - watch for file change
+  - enhance tree view
+  - enhance internet view
+  - allows webkit plugins : allows to use flash plugin to view videos on youtube
+  
 # v0.0.3
 
   - Allows dragging a file or folder from outside
