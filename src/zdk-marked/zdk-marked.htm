@@ -59,6 +59,16 @@
 			
 			this.toHTML();
 			
+			this.$.toc.addEventListener("click", function(evt) {
+				that.toggleToc();
+				if( evt.target.tagName.toLowerCase() !== "div" ) return;
+				var link = evt.target.getAttribute("link");
+				var target = that.$.markdown.querySelector(link);
+				if(target) {
+					target.scrollIntoView(true);
+				}
+			}, false);
+			
 			this.$.markdown.addEventListener("scroll", function(evt) {
 				that.setAttribute("scroll",that.$.markdown.scrollTop);
 			}, false);
@@ -86,16 +96,11 @@
 			for(var i=0;i<list.length;i++) {
 				var level = +list.item(i).tagName.substr(1);
 				if(level <= this.toclevel ) {
-					toc+= "<a href='#"+list.item(i).id+"'>";
-					toc+= "<div class='tm"+level+"'>"+list.item(i).textContent+"</div></a>\n"
+					// toc+= "<a href='#"+list.item(i).id+"'>";
+					toc+= "<div class='tm"+level+"' link='#"+list.item(i).id+"'>"+list.item(i).textContent+"</div>\n"
 				}
 			}
 			this.$.toc.innerHTML = toc;
-			
-			var that = this;
-			[].slice.call(that.$.toc.querySelectorAll("a[href]"),0).forEach( function(item) {
-				item.addEventListener("mouseup",function() {that.toggleToc.call(that)}, false);
-			});
 		},
 		toclevelChanged: function(oldValue, newValue) {
 			if( oldValue === newValue ) return;
