@@ -35,12 +35,12 @@ function initApp() {
 }
 
 function App() {
-	
+
 	var watchFile = null;
 	var watchDir = null;
 
 	this.nav = document.querySelector("nav ul");
-	
+
 	/**
 	* Allows drag and drop
 	*/
@@ -50,15 +50,15 @@ function App() {
 		dropbox.ondragend = function ()  { return false; };
 		dropbox.addEventListener("drop",drop,false);
 		function drop(e) {
-			e.stopPropagation();  
+			e.stopPropagation();
 			e.preventDefault();
-			
+
 			var file = e.dataTransfer.files[0];
-			
+
 			var stats = fs.statSync(file.path);
 			if( stats.isDirectory() ) {
 				dir = file.path;
-				that.getMdFiles.call(that);
+				that.getMdFiles.call(that, true);
 			} else {
 				dir = path.dirname(file.path);
 				that.getMdFiles.call(that)
@@ -66,7 +66,7 @@ function App() {
 						that.open.call(that,path.basename(file.path));
 					});
 			}
-			
+
 			return false;
 		}
 	})(this);
@@ -96,7 +96,7 @@ function App() {
 			}
 		});
 	})();
-	
+
 	/**
 	* Get Title of the iframe
 	*/
@@ -109,10 +109,11 @@ function App() {
 			}
 		}, false);
 	})();
-    
-	this.getMdFiles = function() {
+
+	this.getMdFiles = function( readme ) {
 		var that = this;
-		
+		readme = readme || false;
+
 		return new Promise(function(resolve, reject) {
 			fs.readdir( dir, function(err,list) {
 				if(err) {
@@ -122,7 +123,7 @@ function App() {
 				var ul = document.querySelector("#directory ul");
 				ul.innerHTML = "";
 				var li;
-			
+
 				var count = list.length;
 				if(!count) { resolve(); }
 
@@ -131,10 +132,10 @@ function App() {
 					document.querySelector("#directory header .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
 					li = document.createElement("li");
 					li.innerHTML = "..";
-					var func = function() { 
-						dir = dir.slice(0,dir.lastIndexOf("/")); 
-                        if(!dir.length) { dir = "/"; }
-						that.getMdFiles();
+					var func = function() {
+						dir = dir.slice(0,dir.lastIndexOf("/"));
+						if(!dir.length) { dir = "/"; }
+						that.getMdFiles(true);
 					};
 					li.addEventListener("click",func,false);
 					ul.appendChild(li);
@@ -142,52 +143,68 @@ function App() {
 					document.querySelector("#directory header .title").innerHTML = "/";
 				}
 				var folders = document.createDocumentFragment();
-				
+
 				function getStat(file) {
 					return new Promise(function(resolve, reject) {
-						fs.stat( dir+"/"+file, function(err, stats) {
+						fs.lstat( dir+"/"+file, function(err, stats) {
 							if(err) { reject(err); }
 							resolve(stats);
 						});
 					});
 				}
-			
+
 				list.forEach( function(file) {
 					getStat(file)
 						.then( function(stats) {
 							var func = null;
-                        
 							li = document.createElement("li");
 							if( /^[^\.]/.test(file) ) {
 								if(stats.isFile() && /\.md$/.test(file)) {
 									li.innerHTML = file;
-									func = function() { 
+									func = function() {
 										var selected = ul.querySelector("li.select");
 										if(selected) selected.classList.remove("select");
 										this.classList.add("select");
-										that.open(file); 
+										that.open(file);
 									};
 									li.addEventListener("click",func,false);
 									if(watchFile && watchFile === dir+"/"+file) {
 										li.classList.add("select");
 									}
 									ul.appendChild(li);
+									if(readme && file.toLowerCase() === "readme.md") {
+										that.open(file);
+									}
 								}
 								if(stats.isDirectory()) {
 									li.classList.add("folder");
 									li.innerHTML = file;
-									func = function() { 
-										dir += "/"+file; 
-										that.getMdFiles();
+									func = function() {
+										dir += "/"+file;
+										that.getMdFiles(true);
 									};
 									li.addEventListener("click",func,false);
 									folders.appendChild(li);
+								}
+								if(stats.isSymbolicLink()) {
+									var link = fs.readlinkSync( dir+ "/"+ file );
+									var tmp = fs.lstatSync( link );
+									if( tmp.isDirectory() ) {
+										li.classList.add("folder");
+										li.innerHTML = file;
+										func = function() {
+											dir = link;
+											that.getMdFiles(true);
+										};
+										li.addEventListener("click",func,false);
+										folders.appendChild(li);
+									}
 								}
 							}
 							return li;
 						})
 						.then( function() {
-							if(--count === 0) { 
+							if(--count === 0) {
 								ul.appendChild(folders);
 								_watchDir( that );
 								resolve();
@@ -195,7 +212,7 @@ function App() {
 						})
 						.catch( function(err) {
 							// console.error(err);
-							if(--count === 0) { 
+							if(--count === 0) {
 								ul.appendChild(folders);
 								_watchDir( that );
 								resolve();
@@ -224,32 +241,40 @@ function App() {
 
 	this.open = function(file) {
 		var that = this;
-		
+
 		return new Promise(function(resolve, reject) {
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
-			
+
 			if(internet.style.display === "flex") {
 				internet.querySelector("iframe").src = "load.htm";
 				internet.style.display = "none";
 			}
 			var filePath = dir + "/" + file;
+
+			var dirPath = path.dirname( filePath );
+			if( dirPath !== dir ) {
+				// TODO give dir as argument
+				dir = dirPath;
+				that.getMdFiles( false );
+			}
+
 			if( zdkMarked.getAttribute("path") !== filePath) {
 				zdkMarked.setAttribute("path",filePath);
 			}
 			zdkMarked.removeAttribute("src");
-            
-			fs.readFile( dir+"/"+file, {encoding:'utf-8'}, function(err, data) {
+
+			fs.readFile( filePath, {encoding:'utf-8'}, function(err, data) {
 				if(err) reject(err);
-				
+
 				zdkMarked.textContent = data;
-				_watchFile( that, dir+"/"+file );
-				
+				_watchFile( that, filePath );
+
 				resolve();
 			});
 		});
 	};
-	
+
 	function _watchFile( App, filePath ) {
 		if (watchFile) {
 			if( watchFile !== filePath ) {
@@ -258,21 +283,21 @@ function App() {
 				return;
 			}
 		}
-		
+
 		watchFile = filePath;
 		fs.watchFile(watchFile, function (evt, filename) {
 			App.open( path.basename(filePath) );
 		});
 	}
-	
+
 	this.closeBrowser = function() {
 		var internet = document.querySelector("#internet");
 		if(internet.style.display === "flex") {
 			internet.querySelector("iframe").src = "load.htm";
 			internet.style.display = "none";
 	    }
-    };
-	
+	};
+
 	this.run = function() {
 		var spawn = require('child_process').spawn,
 		    os    = require("os");
@@ -295,9 +320,9 @@ function App() {
 							openCmd = "xdg-open";
 							break;
 					}
-					
+
 					var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
-					
+
 					/*
 					var iframe = document.querySelector("iframe#ext");
 					document.querySelector("#internet .title").innerHTML = "Loading ...";
@@ -315,6 +340,6 @@ function App() {
 					break;
 			}
 		},false);
-		this.getMdFiles();
+		this.getMdFiles(true);
 	};
 }
