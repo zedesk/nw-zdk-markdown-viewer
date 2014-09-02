@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=0.0.4
+Name=zdk-Markdown-viewer
+Comment=A markdown viewer
+Exec=/home/fablec/zdk-markdown-viewer-0.0.4/zdk-Markdown-Viewer
+Icon=/home/fablec/zdk-markdown-viewer-0.0.4/MMD.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;

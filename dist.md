@@ -14,8 +14,7 @@ In the previous version, I use grunt "grunt-node-webkit-builder". This grunt pac
 
 Get node-webkit : 
 
-The zdk-Markdown-Viewer app use the last version of node-webkit ( v0.9.2 )
-
+The zdk-Markdown-Viewer app use the last version of node-webkit ( v0.10.2 )
 
 To know what version to install
 
@@ -32,7 +31,7 @@ Add a VERSION file
 ~~~
 zdk-Markdown-viewer
 dev@zedesk.net
-v0.0.4
+v0.0.6
 ~~~
 
 On linux, when lauching the programm there is no menu entry.
@@ -43,7 +42,7 @@ Create a `markdown-viewer.desktop` file :
 
 ~~~
 [Desktop Entry]
-Version=0.0.4
+Version=0.0.6
 Type=Application
 Name=Markdown-Viewer
 Icon=/opt/zdk-Markdown-Viewer/MMD.png
