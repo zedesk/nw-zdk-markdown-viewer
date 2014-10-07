@@ -9,11 +9,16 @@ var os = require("os");
 var gui = require("nw.gui");
 var path = require("path");
 
-var dir;
+var dir, filename;
 if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 	dir = path.normalize(gui.App.argv[0]);
 	if([".",".."].indexOf(dir) !== -1 ) {
 		dir = path.normalize(process.env.PWD+"/"+dir);
+	}
+	var stat = fs.statSync(dir);
+	if(stat.isFile()) {
+		filename = path.basename(dir);
+		dir = path.dirname(dir);
 	}
 } else {
 	dir = gui.App.dataPath;
@@ -26,6 +31,8 @@ if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 			break;
 	}
 }
+console.info("dir ",dir);
+console.info("filename ",filename);
 window.addEventListener("DOMContentLoaded", initApp, false);
 
 var app;
@@ -118,7 +125,10 @@ function App() {
 			fs.readdir( dir, function(err,list) {
 				if(err) {
 					console.error(err);
-					reject(err);
+					return reject(err);
+				}
+				if(!list) {
+					return reject("can't read directory");
 				}
 				var ul = document.querySelector("#directory ul");
 				ul.innerHTML = "";
@@ -235,7 +245,12 @@ function App() {
 		// var that = this;
 		watchDir = dir;
 		fs.watchFile(watchDir, function (evt, filename) {
-			App.getMdFiles( );
+			App.getMdFiles( )
+				.catch( function(err) {
+					// @TODO show an error panel
+					fs.unwatchFile(watchDir);
+					console.error(err);
+				});
 		});
 	}
 
@@ -340,6 +355,11 @@ function App() {
 					break;
 			}
 		},false);
-		this.getMdFiles(true);
+		this.getMdFiles(filename?false:true)
+			.then( function() {
+				if(filename) {
+					that.open(filename);
+				}
+			});
 	};
 }
