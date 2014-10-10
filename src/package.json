@@ -16,6 +16,8 @@
 		"markdown"
 	],
 	"dependencies": {},
+	"single-instance":true,
+	"chromium-args": "--enable-threaded-compositing",
 	"window": {
 		"title": "zeDesk markdown",
 		"icon": "img/MMD.png",
