@@ -9,6 +9,19 @@ var os = require("os");
 var gui = require("nw.gui");
 var path = require("path");
 
+var userDataDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.zdk-markdown-viewer';
+var log = userDataDir + '/log.md';
+
+if (!fs.existsSync(userDataDir)) {
+	fs.mkdirSync(userDataDir);
+}
+
+gui.App.on('open', function(cmdline) {
+	// get here when opening file with "open with" in finder
+	fs.appendFile(log,'command line: ' + cmdline+'\n');
+});
+
+fs.appendFile(log, "opening...\n");
 var dir, filename;
 if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 	dir = path.normalize(gui.App.argv[0]);
@@ -31,12 +44,13 @@ if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 			break;
 	}
 }
-console.info("dir ",dir);
-console.info("filename ",filename);
+fs.appendFile(log, "dir "+dir+"\n");
+fs.appendFile(log, "filename "+filename+"\n");
 window.addEventListener("DOMContentLoaded", initApp, false);
 
 var app;
 function initApp() {
+	fs.appendFile(log, "initApp\n" );
 	app = new App();
 	app.run();
 }
@@ -255,6 +269,7 @@ function App() {
 	}
 
 	this.open = function(file) {
+		fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
