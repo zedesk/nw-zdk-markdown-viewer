@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 				// choose what platforms to compile for here
 				platforms:['osx', 'linux32', 'linux64'],
 				macIcns: './icns/MMD.icns',
-				macPlist:'./info.plist'
+				macPlist:'./Info.plist'
 			},
 			src: ['./src/**/*']
 		}
