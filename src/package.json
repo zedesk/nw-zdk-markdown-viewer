@@ -17,7 +17,7 @@
 	],
 	"dependencies": {},
 	"single-instance":true,
-	"chromium-args": "--enable-threaded-compositing",
+	"chromium-args": "--enable-threaded-compositing --enable-html-imports",
 	"window": {
 		"title": "zeDesk markdown",
 		"icon": "img/MMD.png",
