@@ -19,6 +19,11 @@ if (!fs.existsSync(userDataDir)) {
 gui.App.on('open', function(cmdline) {
 	// get here when opening file with "open with" in finder
 	fs.appendFile(log,'command line: ' + cmdline+'\n');
+	var win = gui.Window.get();
+	filename = path.basename(cmdline);
+	dir = path.dirname(cmdline);
+	app.getMdFiles(false);
+	app.open(filename);
 });
 
 fs.appendFile(log, "opening...\n");
