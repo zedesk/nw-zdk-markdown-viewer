@@ -51,6 +51,18 @@ if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 }
 fs.appendFile(log, "dir "+dir+"\n");
 fs.appendFile(log, "filename "+filename+"\n");
+fs.appendFile(log, "appname "+gui.App.manifest.name);
+
+var win = gui.Window.get();
+var nativeMenuBar = new gui.Menu({ type: "menubar" });
+try {
+	nativeMenuBar.createMacBuiltin(gui.App.manifest.name, {
+		hideEdit: false,
+		hideWindow: true
+	});
+	win.menu = nativeMenuBar;
+} catch (ex) { }
+
 window.addEventListener("DOMContentLoaded", initApp, false);
 
 var app;
