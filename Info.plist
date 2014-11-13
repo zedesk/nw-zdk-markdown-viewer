@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-  <dict>
-    <key>BuildMachineOSBuild</key>
-    <string>12C3006</string>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
-    <key>CFBundleDisplayName</key>
-    <string>zdk-Markdown-Viewer</string>
-    <key>CFBundleDocumentTypes</key>
+	<dict>
+	<key>BuildMachineOSBuild</key>
+	<string>12C3006</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>zdk-Markdown-Viewer</string>
+	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -26,7 +26,7 @@
 				<string>mdml</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>markdown.icns</string>
+			<string>icns/markdown.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Markdown Document</string>
 			<key>CFBundleTypeRole</key>
@@ -39,42 +39,42 @@
 			<true/>
 		</dict>
 	</array>
-    <key>CFBundleExecutable</key>
-    <string>node-webkit</string>
+	<key>CFBundleExecutable</key>
+	<string>node-webkit</string>
 	<key>CFBundleGetInfoString</key>
 	<string>© zeDesk, 2014</string>
-    <key>CFBundleIconFile</key>
-    <string>nw.icns</string>
-    <key>CFBundleIdentifier</key>
-    <string>net.zedesk.viewer</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundleName</key>
-    <string>zdk-Markdown-Viewer</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleShortVersionString</key>
-    <string>Version 0.0.6</string>
-    <key>CFBundleVersion</key>
-    <string>0.0.6</string>
-    <key>DTSDKBuild</key>
-    <string>11E52</string>
-    <key>DTSDKName</key>
-    <string>macosx10.7</string>
-    <key>DTXcode</key>
-    <string>0452</string>
-    <key>DTXcodeBuild</key>
-    <string>4G2008a</string>
-    <key>LSFileQuarantineEnabled</key>
-    <true/>
-    <key>LSMinimumSystemVersion</key>
-    <string>10.6.0</string>
-    <key>NSPrincipalClass</key>
-    <string>NSApplication</string>
-    <key>NSSupportsAutomaticGraphicsSwitching</key>
-    <true/>
-    <key>SCMRevision</key>
-    <string>239963</string>
+	<key>CFBundleIconFile</key>
+	<string>nw.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>net.zedesk.viewer</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>zdk-Markdown-Viewer</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>Version 0.1.2</string>
+	<key>CFBundleVersion</key>
+	<string>0.1.2</string>
+	<key>DTSDKBuild</key>
+	<string>11E52</string>
+	<key>DTSDKName</key>
+	<string>macosx10.7</string>
+	<key>DTXcode</key>
+	<string>0452</string>
+	<key>DTXcodeBuild</key>
+	<string>4G2008a</string>
+	<key>LSFileQuarantineEnabled</key>
+	<true/>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6.0</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<key>SCMRevision</key>
+	<string>239963</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -107,5 +107,5 @@
 			<string>net.daringfireball.markdown</string>
 		</dict>
 	</array>
-  </dict>
+	</dict>
 </plist>
