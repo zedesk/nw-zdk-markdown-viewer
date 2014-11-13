@@ -78,6 +78,28 @@ function App() {
 		}
 	})(this);
 
+	(function() {
+		var title = document.querySelector("core-toolbar div");
+		var zdkMarked = document.querySelector("zdk-marked");
+		if(zdkMarked.parsed) {
+			console.log("meta",zdkMarked.getMeta());
+		}
+		zdkMarked.addEventListener("parsed", function() {
+			var meta = zdkMarked.getMeta();
+			title.innerHTML = meta.title;
+			document.querySelector("template#toc").model = { toc:zdkMarked.getToc()};
+		}, false);
+	})();
+
+	(function() {
+		var tocMenu = document.querySelector("#tocMenu");
+		var zdkMarked = document.querySelector("zdk-marked");
+		tocMenu.addEventListener("click", function(evt) {
+			console.log(evt.srcElement.getAttribute("href"));
+			zdkMarked.goLink(evt.srcElement.getAttribute("href"));
+		}, false);
+	})();
+
 	/**
 	 * Show tip on directory
 	 */
@@ -93,6 +115,7 @@ function App() {
 	/**
 	 * Show history panel
 	 */
+	/*
 	(function() {
 		document.querySelector("#history header").addEventListener("click", function() {
 			var history = this.parentElement;
@@ -103,6 +126,7 @@ function App() {
 			}
 		});
 	})();
+	*/
 
 	/**
 	* Get Title of the iframe
@@ -183,7 +207,7 @@ function App() {
 									}
 									ul.appendChild(li);
 									if(readme && file.toLowerCase() === "readme.md") {
-										that.open(file);
+										that.open(file, true);
 									}
 								}
 								if(stats.isDirectory()) {
@@ -254,10 +278,13 @@ function App() {
 		});
 	}
 
-	this.open = function(file) {
+	this.open = function(file, auto) {
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
+			if( !auto && document.querySelector("core-drawer-panel").selected === "drawer" ) {
+				toggleDrawer();
+			}
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
 

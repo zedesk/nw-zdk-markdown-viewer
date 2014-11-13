@@ -1,44 +1,138 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>zdk Markdown</title>
-	<link rel="stylesheet" href="app.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	
-	<script src="bower_components/platform/platform.js"></script>
-	<link rel="import" href="zdk-marked/zdk-marked.htm">
-	<script src="app.js"></script>
-</head>
-<body>
-	<nav>
-		<header>
-			<img src="img/MMD.png">
-			<span>zdk markdown</span>
-		</header>
-		<div id="history" class="menu">
-			<header>History</header>
-			<ul style="height: 200px;display: none;"></ul>
-		</div>
-		<div id="directory" class="menu" style="flex:1">
-			<header>
-				<div class="title">Home</div>
-				<div class="tip">Home</div>
-			</header>
-			<ul></ul>
-		</div>
-	</nav>
-	<section>
-		<zdk-marked src="README.md"></zdk-marked>
-		<div id="internet">
-			<div class="banner">
-				<div class="content" style="flex:1">
-					<span class="title"></span>
-					<span class="url"></span>
+	<head>
+		<meta charset="utf-8" />
+		<title>Test</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="stylesheet" href="styles.css" />
+
+		<script src="bower_components/webcomponentsjs/webcomponents.min.js" ></script>
+
+		<link rel="import" href="bower_components/core-toolbar/core-toolbar.html" >
+		<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+		<link rel="import" href="bower_components/core-icons/core-icons.html">
+		<link rel="import" href="bower_components/core-icons/av-icons.html">
+		<link rel="import" href="bower_components/core-icon-button/core-icon-button.html" >
+		<link rel="import" href="bower_components/core-drawer-panel/core-drawer-panel.html" >
+		<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+		<link rel="import" href="bower_components/core-dropdown/core-dropdown.html">
+		<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+		<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
+		<link rel="import" href="zdk-marked/zdk-marked.htm">
+
+		<script src="app.js"></script>
+
+		<style shim-shadowdom >
+			html /deep/ #about {
+				height: 300px;
+				width: 50%;
+				min-width: 350px;
+			}
+			html /deep/ .open-below {
+				top: 45px;
+				height:300px;
+				width:250px;
+				display:flex;
+				flex-direction: column;
+				border:1px solid slategray;
+				box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+			}
+		</style>
+	</head>
+	<body unresolved>
+		<core-toolbar>
+			<core-icon-button icon="menu" onclick="toggleDrawer()"></core-icon-button>
+			<div flex id="title">Title</div>
+			<core-icon-button icon="view-list" onclick="openToc()">
+				<core-dropdown id="tocMenu" halign="right" class="open-below">
+					<ul>
+						<template id="toc" is="auto-binding" repeat={{toc}}>
+							<li class="tm{{level}}"><a href="#{{link}}">{{label}}</a></li>
+						</template>
+					</ul>
+				</core-dropdown>
+			</core-icon-button>
+		</core-toolbar>
+		<core-drawer-panel drawerWidth="256px" responsiveWidth="960px">
+			<div drawer>
+				<div id="directory" class="menu" style="flex:1; margin-top:20px;">
+					<header>
+						<div class="title">Home</div>
+						<div class="tip">Home</div>
+					</header>
+					<ul></ul>
 				</div>
-				<img src="img/close.svg" style="height:40px;margin:10px;margin-right:25px" onclick="app.closeBrowser()">
+				<ul>
+					<!--
+					<li><core-icon-button icon="help" on-tap="{{moreAction}}"></core-icon-button>How to write markdown</li>
+					<li><core-icon-button icon="inbox" on-tap="{{moreAction}}"></core-icon-button></li>
+					<li><core-icon-button icon="info" on-tap="{{moreAction}}"></core-icon-button>Info about the file</li>
+					<li><core-icon-button icon="apps" on-tap="{{moreAction}}"></core-icon-button>Collections</li>
+					<li><core-icon-button icon="add" on-tap="{{moreAction}}"></core-icon-button>Create a new document</li>
+					<li><core-icon-button icon="delete" on-tap="{{moreAction}}"></core-icon-button>Remove a document</li>
+					<li><core-icon-button icon="settings" on-tap="{{moreAction}}"></core-icon-button>Settings, account ...</li>
+
+					<li><core-icon-button icon="arrow-back" on-tap="{{moreAction}}"></core-icon-button>Back</li>
+					<li><core-icon-button icon="close" on-tap="{{moreAction}}"></core-icon-button>Close</li>
+					<li><core-icon-button icon="drawer" on-tap="{{moreAction}}"></core-icon-button>Menu option</li>
+					<li><core-icon-button icon="av:skip-previous" on-tap="{{moreAction}}"></core-icon-button>History</li>
+					-->
+					<li onclick="about();"><core-icon-button icon="info-outline"></core-icon-button>About</li>
+				</ul>
 			</div>
-		<iframe nwdisable nwfaketop id="ext" src="load.htm"></iframe>
-		</div>
-	</section>
-</body>
+			<div main>
+				<zdk-marked src="README.md"></zdk-marked>
+				<div id="internet">
+					<div class="banner">
+						<div class="content" style="flex:1">
+							<span class="title"></span>
+							<span class="url"></span>
+						</div>
+						<img src="img/close.svg" style="height:40px;margin:10px;margin-right:25px" onclick="app.closeBrowser()">
+					</div>
+					<iframe nwdisable nwfaketop id="ext" src="load.htm"></iframe>
+				</div>
+				<!--
+				<paper-fab icon="create" onclick="toggleView()"></paper-fab>
+				-->
+			</div>
+		</core-drawer-panel>
+		<paper-dialog id="about" heading="zdk-markdown" transition="core-transition-center" backdrop >
+			<div style="display:flex">
+				<div style="margin:5px">
+					<img src="img/MMD.png">
+				</div>
+				<div style="flex:1;margin:5px">
+					<p>Copyright zeDesk.net</p
+					<p>Version : 0.2.0</p>
+					<p><a href="http://github.com/zedesk/" target="_blank">Github</a></p>
+				</div>
+			</div>
+		</paper-dialog>
+		<script>
+			function about() {
+				toggleDrawer();
+				var dialog = document.getElementById("about");
+				dialog.toggle();
+			}
+			function toggleDrawer() {
+				var drawer = document.querySelector("core-drawer-panel");
+				drawer.togglePanel();
+			}
+			function moreAction() {
+				return;
+			}
+			function openToc() {
+				var dropToc = document.querySelector("core-dropdown#tocMenu");
+				dropToc.toggle();
+			}
+			function toggleView() {
+				var button = document.querySelector("paper-fab");
+				button.icon = button.icon === "create"?"visibility":"create";
+			}
+		</script>
+	</body>
 </html>

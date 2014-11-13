@@ -17,12 +17,12 @@ nav {
 	background: DarkSlateGray;
 	color: white;
 	display:flex;
-    flex-direction: column;
+	flex-direction: column;
 }
 nav > header {
-    height: 75px;
-    line-height: 75px;
-    margin-bottom: 20px;
+	height: 75px;
+	line-height: 75px;
+	margin-bottom: 20px;
 }
 nav > header > img { height:60px; vertical-align: middle; }
 nav > header > span {
@@ -34,17 +34,17 @@ nav > header > span {
 }
 
 nav div.menu {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
 }
 nav div.menu header {
-    background: lightslategray;
-    padding: 10px 5px;
-    border-top-width: 5px;
-    border-top-style: solid;
-    border-top: black;
-    box-sizing: border-box;
+	background: lightslategray;
+	padding: 10px 5px;
+	border-top-width: 5px;
+	border-top-style: solid;
+	border-top: black;
+	box-sizing: border-box;
 }
 
 nav div.menu header .title {
@@ -54,49 +54,50 @@ nav div.menu header .title {
 }
 
 div.menu ul {
-    margin-top: 0px;
-    flex: 1;
-    overflow-y: scroll;
+	margin-top: 0px;
+	flex: 1;
+	overflow-y: scroll;
 	list-style-type: none;
 	padding: 0px;
 	/* overflow:auto; */
 }
 div.menu ul li {
 	line-height: 30px;
-  padding-left: 20px;
+	padding-left: 20px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 }
 div.menu ul li.select {
-    background: white;
-    color: black;
+	background: white;
+	color: black;
 }
 div.menu ul li:hover {
 	background:#6D8484;
 }
 div.menu ul li.select:hover {
-    background: white;
+	background: white;
 }
 
 #directory li.folder {
-    color: khaki;
+	color: khaki;
 }
+
 div.tip {
-    position: fixed;
-    background: lightblue;
-    color: black;
-    font-size: 12px;
-    padding: 10px;
-    margin-top: 15px;
-    min-width:150px;
-    z-index:1;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
-    display: none;
+	position: fixed;
+	background: lightblue;
+	color: black;
+	font-size: 12px;
+	padding: 10px;
+	margin-top: 15px;
+	min-width:150px;
+	z-index:1;
+	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
+	display: none;
 }
 
 section {
-    position:relative;
+	position:relative;
 	flex: 1;
 	background: white;
 	display: flex;
@@ -104,24 +105,24 @@ section {
 }
 
 zdk-marked {
-    flex: 1;
+	flex: 1;
 }
 
 div#internet {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: none;
+	flex-direction: column;
 }
 div#internet div.banner {
-    height:70px;
-    background: #234023;
-    text-align: right;
-    display: flex;
-    align-items: center;
+	height:70px;
+	background: #234023;
+	text-align: right;
+	display: flex;
+	align-items: center;
 }
 
 div#internet div.banner div.content {
@@ -145,7 +146,7 @@ div#internet div.banner .title {
 }
 
 iframe#ext {
-    flex:1;
-    background: aliceblue;
-    border: none;
+	flex:1;
+	background: aliceblue;
+	border: none;
 }
