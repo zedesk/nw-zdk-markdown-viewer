@@ -309,7 +309,7 @@ function App() {
 		});
 	}
 
-	this.open = function(file) {
+	this.open = function(file, auto) {
 		fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
 		var that = this;
 
