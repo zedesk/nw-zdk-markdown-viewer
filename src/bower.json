@@ -27,6 +27,6 @@
 		"core-dropdown": "Polymer/core-dropdown#~0.5.0",
 		"paper-fab": "Polymer/paper-fab#~0.5.0",
 		"paper-shadow": "Polymer/paper-shadow#~0.5.0",
-		"highlightjs": "~8.0.0"
+		"highlightjs": "~8.3.0"
 	}
 }
