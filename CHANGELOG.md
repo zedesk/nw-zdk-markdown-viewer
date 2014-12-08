@@ -1,10 +1,19 @@
 % zdk-markdown ChangeLog
 % zedesk.net
-% June 2014
+% December, 2014
+
+# v0.2.0-Pre
+
+  - new UI
+  - FIX inside link
+
+The UI is now built over polymer elements.
+
+you can create a link to any title inside a document. For each title, the link is the text of the title in lower case with "-" separating words. For example to link a title "Get Data Records", the href to the title is "get-data-records".
 
 # v0.1.2
 
-..- MAC OSX : allow copy/paste operations
+  - MAC OSX : allow copy/paste operations
 
 # v0.1.1
 
