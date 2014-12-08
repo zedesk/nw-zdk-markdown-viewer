@@ -315,7 +315,7 @@ function App() {
 
 		return new Promise(function(resolve, reject) {
 			if( !auto && document.querySelector("core-drawer-panel").selected === "drawer" ) {
-				toggleDrawer();
+				document.querySelector("core-drawer-panel").toggleDrawer();
 			}
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
@@ -385,18 +385,20 @@ function App() {
 					break;
 				case "pdf":
 				case "internal":
-					var openCmd;
-					switch( os.platform() ) {
-						case "darwin" :
-							openCmd = "open";
-							break;
-						case "linux":
-							openCmd = "xdg-open";
-							break;
+					if( link.href[0] === "#") {
+						zdkMarked.goLink(link.href);
+					} else {
+						var openCmd;
+						switch( os.platform() ) {
+							case "darwin" :
+								openCmd = "open";
+								break;
+							case "linux":
+								openCmd = "xdg-open";
+								break;
+						}
+						var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
 					}
-
-					var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
-
 					/*
 					var iframe = document.querySelector("iframe#ext");
 					document.querySelector("#internet .title").innerHTML = "Loading ...";
