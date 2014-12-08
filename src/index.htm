@@ -21,6 +21,7 @@
 		<link rel="import" href="bower_components/core-dropdown/core-dropdown.html">
 		<link rel="import" href="bower_components/paper-fab/paper-fab.html">
 		<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
+		<link rel="import" href="bower_components/core-tooltip/core-tooltip.html">
 		<link rel="import" href="zdk-marked/zdk-marked.htm">
 
 		<script src="app.js"></script>
@@ -58,11 +59,11 @@
 		</core-toolbar>
 		<core-drawer-panel drawerWidth="256px" responsiveWidth="960px">
 			<div drawer>
-				<div id="directory" class="menu" style="flex:1; margin-top:20px;">
-					<header>
+				<div id="directory" class="menu">
+					<core-tooltip>
 						<div class="title">Home</div>
-						<div class="tip">Home</div>
-					</header>
+						<div tip>Home</div>
+					</core-tooltip>
 					<ul></ul>
 				</div>
 				<ul>
