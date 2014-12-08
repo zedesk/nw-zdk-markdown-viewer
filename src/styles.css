@@ -44,6 +44,7 @@ core-drawer-panel[narrow] button {
 }
 
 [drawer] ul {
+	margin-top: 0px;
 	padding: 0px;
 	list-style-type: none;
 }
@@ -141,6 +142,18 @@ iframe#ext {
 	flex:1;
 	background: aliceblue;
 	border: none;
+}
+
+#directory {
+	flex:1;
+	margin-top:20px;
+	display:flex;
+	flex-direction:column;
+}
+
+#directory div.title {
+	margin:0px 10px;
+	font-size:1.2em;
 }
 
 #directory li { height:26px; }
