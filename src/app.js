@@ -63,7 +63,7 @@ try {
 	win.menu = nativeMenuBar;
 } catch (ex) { }
 
-window.addEventListener("DOMContentLoaded", initApp, false);
+window.addEventListener("polymer-ready", initApp, false);
 
 var app;
 function initApp() {
@@ -132,20 +132,8 @@ function App() {
 	})();
 
 	/**
-	 * Show tip on directory
-	 */
-	(function() {
-		document.querySelector("#directory header").addEventListener("mouseover", function() {
-			this.querySelector(".tip").style.display = "block";
-		});
-		document.querySelector("#directory header").addEventListener("mouseout", function() {
-			this.querySelector(".tip").style.display = "none";
-		});
-	})();
-
-	/**
-	 * Show history panel
-	 */
+	* Show history panel
+	*/
 	/*
 	(function() {
 		document.querySelector("#history header").addEventListener("click", function() {
@@ -192,9 +180,9 @@ function App() {
 				var count = list.length;
 				if(!count) { resolve(); }
 
-				document.querySelector("#directory header .tip").innerHTML = dir;
+				document.querySelector("core-tooltip [tip]").innerHTML = dir;
 				if(dir != "/") {
-					document.querySelector("#directory header .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
+					document.querySelector("core-tooltip .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
 					li = document.createElement("li");
 					li.innerHTML = "..";
 					var func = function() {
@@ -205,7 +193,7 @@ function App() {
 					li.addEventListener("click",func,false);
 					ul.appendChild(li);
 				} else {
-					document.querySelector("#directory header .title").innerHTML = "/";
+					document.querySelector("core-tooltip .title").innerHTML = "/";
 				}
 				var folders = document.createDocumentFragment();
 
@@ -315,7 +303,7 @@ function App() {
 
 		return new Promise(function(resolve, reject) {
 			if( !auto && document.querySelector("core-drawer-panel").selected === "drawer" ) {
-				document.querySelector("core-drawer-panel").toggleDrawer();
+				document.querySelector("core-drawer-panel").togglePanel();
 			}
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
@@ -369,12 +357,12 @@ function App() {
 		if(internet.style.display === "flex") {
 			internet.querySelector("iframe").src = "load.htm";
 			internet.style.display = "none";
-	    }
+		}
 	};
 
 	this.run = function() {
 		var spawn = require('child_process').spawn,
-		    os    = require("os");
+			os    = require("os");
 		var that = this;
 		var zdkMarked = document.querySelector("zdk-marked");
 		zdkMarked.addEventListener("link", function(e) {
