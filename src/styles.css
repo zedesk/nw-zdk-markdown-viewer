@@ -81,6 +81,7 @@ li:hover {
 }
 
 #tocMenu li { height:25px; color:black }
+#tocMenu li:hover a { color:white; }
 
 #tocMenu a { text-decoration:none; color: black; }
 #tocMenu a:visited { color:inherit; }

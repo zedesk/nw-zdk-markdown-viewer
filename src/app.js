@@ -126,8 +126,12 @@ function App() {
 		var tocMenu = document.querySelector("#tocMenu");
 		var zdkMarked = document.querySelector("zdk-marked");
 		tocMenu.addEventListener("click", function(evt) {
-			console.log(evt.srcElement.getAttribute("href"));
-			zdkMarked.goLink(evt.srcElement.getAttribute("href"));
+			var link = evt.srcElement;
+			if( link.tagName === "LI") {
+				link = link.querySelector("a");
+			}
+			console.log(link.getAttribute("href"));
+			zdkMarked.goLink(link.getAttribute("href"));
 		}, false);
 	})();
 
