@@ -25,10 +25,12 @@ core-drawer-panel {
 }
 
 [drawer] {
-	border-right:1px solid slategray;
+	/* border-right:1px solid slategray; */
 	background-color: #B2DFDB;
 	color:#607D8B;
 	overflow-y: auto;
+    display: flex;
+    flex-direction: row;
 }
 
 [main] {
@@ -49,6 +51,31 @@ core-drawer-panel[narrow] button {
     padding-left:20px;
 	list-style-type: none;
 }
+
+[drawer] .leftMenu {
+    display: flex;
+    flex-direction: column;
+    width: 45px;
+    padding-top: 10px;
+    background: darkslategray;
+}
+
+[drawer] core-icon-button:hover {
+    color:aquamarine;
+}
+
+div.cat {
+    flex:1;
+}
+
+div.cat .select {
+    color:white;
+}
+
+div.info {
+    margin-bottom:10px;
+}
+
 li {
 	white-space: nowrap;
 	overflow: hidden;
@@ -72,8 +99,9 @@ li:hover {
 	color: white;
 }
 
-li.select {
+li.select, li.select:hover {
     background:white;
+    color:#607D8B;
 }
 
 #tocMenu ul {
