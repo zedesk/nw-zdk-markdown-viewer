@@ -46,6 +46,7 @@ core-drawer-panel[narrow] button {
 [drawer] ul {
 	margin-top: 0px;
 	padding: 0px;
+    padding-left:20px;
 	list-style-type: none;
 }
 li {
@@ -69,6 +70,10 @@ li {
 li:hover {
 	background: #00695C;
 	color: white;
+}
+
+li.select {
+    background:white;
 }
 
 #tocMenu ul {
