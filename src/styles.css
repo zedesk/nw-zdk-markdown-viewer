@@ -50,6 +50,7 @@ core-drawer-panel[narrow] button {
 	padding: 0px;
     padding-left:20px;
 	list-style-type: none;
+    flex:1;
 }
 
 [drawer] .leftMenu {
@@ -183,10 +184,13 @@ iframe#ext {
 	margin-top:20px;
 	display:flex;
 	flex-direction:column;
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 #directory div.title {
 	margin:0px 10px;
+    margin-bottom:5px;
 	font-size:1.2em;
 }
 
