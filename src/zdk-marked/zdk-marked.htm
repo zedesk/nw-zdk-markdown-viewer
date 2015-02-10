@@ -100,13 +100,17 @@
 				if(target) {
 					return target.scrollIntoView(true);
 				}
-			} catch( err ) { console.error(err); };
+			} catch( err ) { 
+				// console.error(err); 
+			};
 			try {
 				target = this.$.markdown.querySelector('*[name="'+link.slice(1)+'"]');
 				if(target) {
 					return target.scrollIntoView(true);
 				}
-			} catch( err ) { console.error(err); };
+			} catch( err ) { 
+				// console.error(err); 
+			};
 		},
 		toHTML: function() {
 			this.parsed = false;
