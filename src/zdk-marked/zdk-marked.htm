@@ -94,10 +94,19 @@
 			return this.toc;
 		},
 		goLink: function(link) {
-			var target = this.$.markdown.querySelector(link);
-			if(target) {
-				target.scrollIntoView(true);
-			}
+			var target;
+			try {
+				target = this.$.markdown.querySelector(link);
+				if(target) {
+					return target.scrollIntoView(true);
+				}
+			} catch( err ) { console.error(err); };
+			try {
+				target = this.$.markdown.querySelector('*[name="'+link.slice(1)+'"]');
+				if(target) {
+					return target.scrollIntoView(true);
+				}
+			} catch( err ) { console.error(err); };
 		},
 		toHTML: function() {
 			this.parsed = false;
