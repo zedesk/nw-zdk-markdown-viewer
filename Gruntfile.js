@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		nodewebkit: {
 			options: {
-				version: 'latest',
+				version: '0.10.5',
 				buildDir:"./dist",
 				buildType:"versioned",
 				appVersion:"0.2.0-pre",
