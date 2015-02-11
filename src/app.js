@@ -313,7 +313,7 @@ function App() {
 				internet.style.display = "none";
 			}
 			
-			if( file.slice(0,1) !== ".") {
+			if( !file.match(/^.\//)) {
 				var filePath = dir + "/" + file;
 
 				var dirPath = path.dirname( filePath );
