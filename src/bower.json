@@ -20,14 +20,15 @@
 		"tests"
 	],
 	"dependencies": {
-		"paper-dialog": "Polymer/paper-dialog#~0.5.0",
-		"core-toolbar": "Polymer/core-toolbar#~0.5.0",
-		"core-drawer-panel": "Polymer/core-drawer-panel#0.5.0",
-		"polymer": "Polymer/polymer#~0.5.0",
-		"core-dropdown": "Polymer/core-dropdown#~0.5.0",
-		"paper-fab": "Polymer/paper-fab#~0.5.0",
-		"paper-shadow": "Polymer/paper-shadow#~0.5.0",
-		"highlightjs": "~8.3.0",
-		"core-tooltip": "polymer/core-tooltip#~0.5.1"
+    "polymer": "Polymer/polymer",
+		"paper-dialog": "Polymer/paper-dialog",
+    "paper-shadow": "Polymer/paper-shadow",
+    "paper-fab": "Polymer/paper-fab",
+    "paper-button": "Polymer/paper-button",
+		"core-toolbar": "Polymer/core-toolbar",
+		"core-drawer-panel": "Polymer/core-drawer-panel",
+		"core-tooltip": "polymer/core-tooltip",
+		"core-dropdown": "Polymer/core-dropdown",
+		"highlightjs": "~8.3.0"
 	}
 }
