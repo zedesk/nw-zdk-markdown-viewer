@@ -17,7 +17,9 @@
 		<link rel="import" href="bower_components/core-icons/av-icons.html">
 		<link rel="import" href="bower_components/core-icon-button/core-icon-button.html" >
 		<link rel="import" href="bower_components/core-drawer-panel/core-drawer-panel.html" >
+		<link rel="import" href="bower_components/paper-button/paper-button.html">
 		<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+		<link rel="import" href="bower_components/paper-dialog/paper-action-dialog.html">
 		<link rel="import" href="bower_components/core-dropdown/core-dropdown.html">
 		<link rel="import" href="bower_components/paper-fab/paper-fab.html">
 		<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
@@ -73,7 +75,7 @@
 					</div>
 				</div>
 				<div id="directory" class="menu">
-					<core-tooltip>
+					<core-tooltip position="bottom">
 						<div class="title">Home</div>
 						<div tip>Home</div>
 					</core-tooltip>
@@ -92,23 +94,28 @@
 					</div>
 					<iframe nwdisable nwfaketop id="ext" src="load.htm"></iframe>
 				</div>
-				<!--
-				<paper-fab icon="create" onclick="toggleView()"></paper-fab>
-				-->
+				
+				<div class="action">
+					<paper-fab mini icon="create" onclick="toggleView()"></paper-fab>
+					<paper-fab mini icon="arrow-drop-up" onclick="scroll()"></paper-fab>
+				</div>
+				
+				<paper-dialog id="about"  heading="zdk-markdown" backdrop >
+					<div style="display:flex; flex:1">
+						<div style="margin:5px">
+							<img src="img/MMD.png">
+						</div>
+						<div style="flex:1;margin:5px">
+							<p>Copyright zeDesk.net</p>
+							<p>Version : 0.2.0</p>
+							<p><a href="http://github.com/zedesk/" target="_blank">Github</a></p>
+						</div>
+					</div>
+				</paper-dialog>
+				
 			</div>
 		</core-drawer-panel>
-		<paper-dialog id="about" heading="zdk-markdown" transition="core-transition-center" backdrop >
-			<div style="display:flex">
-				<div style="margin:5px">
-					<img src="img/MMD.png">
-				</div>
-				<div style="flex:1;margin:5px">
-					<p>Copyright zeDesk.net</p
-					<p>Version : 0.2.0</p>
-					<p><a href="http://github.com/zedesk/" target="_blank">Github</a></p>
-				</div>
-			</div>
-		</paper-dialog>
+			
 		<script>
 			function about() {
 				toggleDrawer();
@@ -129,6 +136,10 @@
 			function toggleView() {
 				var button = document.querySelector("paper-fab");
 				button.icon = button.icon === "create"?"visibility":"create";
+			}
+			function scroll() {
+				var main = document.querySelector("[main]");
+				main.scrollTop = 0;
 			}
 		</script>
 	</body>

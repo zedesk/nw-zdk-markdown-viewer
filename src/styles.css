@@ -51,6 +51,7 @@ core-drawer-panel[narrow] button {
     padding-left:20px;
 	list-style-type: none;
     flex:1;
+    overflow-y: auto;
 }
 
 [drawer] .leftMenu {
@@ -63,6 +64,10 @@ core-drawer-panel[narrow] button {
 
 [drawer] core-icon-button:hover {
     color:aquamarine;
+}
+
+paper-button[autofocus] {
+      color: #4285f4;
 }
 
 div.cat {
@@ -127,12 +132,21 @@ li.select, li.select:hover {
 #tocMenu .tm5 { margin-left:40px }
 #tocMenu .tm6 { margin-left:50px }
 
-
+div.action {
+    position:fixed;
+    right: 20px;
+    bottom: 30px;
+    display:flex;
+    flex-direction:column;
+}
 paper-fab {
-	bottom: 30px;
-position: fixed;
-right: 20px;
+	margin-top:10px;
 	background:Teal;
+    opacity: 0.3;
+}
+
+paper-fab:hover {
+    opacity:1;
 }
 
 /* iframe panel */
@@ -184,7 +198,7 @@ iframe#ext {
 	margin-top:20px;
 	display:flex;
 	flex-direction:column;
-    overflow: auto;
+    overflow: hidden;
     margin-bottom: 10px;
 }
 
