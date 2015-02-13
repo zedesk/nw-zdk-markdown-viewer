@@ -32,12 +32,15 @@ if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
 	fs.appendFile(log, "opening given dir \n");
 	dir = path.normalize(gui.App.argv[0]);
 	if([".",".."].indexOf(dir) !== -1 ) {
+		fs.appendFile(log, "normakize \n");
 		dir = path.normalize(process.env.PWD+"/"+dir);
 	}
 	var stat = fs.statSync(dir);
 	if(stat.isFile()) {
 		filename = path.basename(dir);
 		dir = path.dirname(dir);
+	} else {
+		if( dir.slice(-1) === "/" ) { dir = dir.slice( 0, -1 ) }
 	}
 } else {
 	fs.appendFile(log, "default\n");
@@ -244,11 +247,12 @@ function App() {
 										li.classList.add("select");
 									}
 									ul.appendChild(li);
-									/*
-									if( !file && file.toLowerCase() === "readme.md") {
+									// fs.appendFile(log,'file ' + file + " auto :"+auto+'\n');
+									if( auto && file.toLowerCase() === "readme.md") {
+										// fs.appendFile(log,'try to open ' + file +'\n');
 										that.open(file, true);
 									}
-									*/
+									
 								}
 								if(stats.isDirectory()) {
 									li.classList.add("folder");
@@ -297,8 +301,12 @@ function App() {
 		});
 	}
 
-	this.open = function(file, auto ) {
-		fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
+	this.open = function( file, auto ) {
+		if( !file.match(/^.\//)) {
+			fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
+		} else {
+			fs.appendFile(log, "open file "+ file+"\n");
+		}
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
@@ -402,18 +410,16 @@ function App() {
 					break;
 			}
 		},false);
-		this.openDir(filename?false:true)
+		this.openDir( filename?false:true )
 			.then( function() {
 				if(filename) {
+					console.log( "filename",filename )
 					that.open(filename);
-				} else {
-					if( process.env.PWD ) {
-						that.open(process.env.PWD+"/README.md");
-					} else {
-						fs.appendFile(log, "path "+path.dirname('./app.js')+"\n");
-						that.open( "./README.md");
-					}
+				} 
+				/* else {
+					that.open( "./README.md");
 				}
+				*/
 			});
 	};
 }
