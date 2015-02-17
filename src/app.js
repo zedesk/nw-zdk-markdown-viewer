@@ -415,11 +415,9 @@ function App() {
 				if(filename) {
 					console.log( "filename",filename )
 					that.open(filename);
-				} 
-				/* else {
+				} else {
 					that.open( "./README.md");
 				}
-				*/
 			});
 	};
 }
