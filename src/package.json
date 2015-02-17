@@ -17,7 +17,7 @@
 	],
 	"dependencies": {},
 	"single-instance":true,
-	"chromium-args": "--enable-threaded-compositing --enable-html-imports",
+	"chromium-args": "--enable-threaded-compositing --enable-html-imports --remote-debugging-port=9222",
 	"window": {
 		"title": "zeDesk markdown",
 		"icon": "img/MMD.png",
