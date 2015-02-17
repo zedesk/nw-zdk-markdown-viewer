@@ -94,7 +94,7 @@ function App() {
 			var stats = fs.statSync(file.path);
 			if( stats.isDirectory() ) {
 				dir = file.path;
-				that.getMdFiles.call(that, true);
+				that.openDir.call(that, true);
 			} else {
 				dir = path.dirname(file.path);
 				that.openDir.call(that)
