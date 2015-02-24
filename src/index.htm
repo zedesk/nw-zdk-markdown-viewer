@@ -7,7 +7,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<link rel="stylesheet" href="styles.css" />
 
 		<script src="bower_components/webcomponentsjs/webcomponents.min.js" ></script>
 
@@ -25,6 +24,13 @@
 		<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
 		<link rel="import" href="bower_components/core-tooltip/core-tooltip.html">
 		<link rel="import" href="zdk-marked/zdk-marked.htm">
+
+		<script src="bower_components/codemirror/lib/codemirror.js"></script>
+		<link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+		<link rel="stylesheet" href="bower_components/codemirror/theme/cobalt.css">
+		<script src="bower_components/codemirror/mode/markdown/markdown.js"></script>
+		
+		<link rel="stylesheet" href="styles.css" />
 
 		<script src="app.js"></script>
 
@@ -95,8 +101,10 @@
 					<iframe nwdisable nwfaketop id="ext" src="load.htm"></iframe>
 				</div>
 				
+				<div class="editor hidden"></div>
+				
 				<div class="action">
-					<!--<paper-fab mini icon="create" onclick="toggleView()"></paper-fab>-->
+					<paper-fab mini icon="create" onclick="toggleView()"></paper-fab>
 					<paper-fab mini icon="arrow-drop-up" onclick="scroll()"></paper-fab>
 				</div>
 				
@@ -117,6 +125,13 @@
 		</core-drawer-panel>
 			
 		<script>
+		var myCodeMirror = CodeMirror(document.querySelector(".editor"), {
+		  value: "# Test\ntest d'édition d'un texte en markdown",
+		  mode:  "markdown",
+			theme: "cobalt",
+			lineNumbers: true
+		});
+		
 			function about() {
 				toggleDrawer();
 				var dialog = document.getElementById("about");
@@ -136,6 +151,13 @@
 			function toggleView() {
 				var button = document.querySelector("paper-fab");
 				button.icon = button.icon === "create"?"visibility":"create";
+				if( button.icon !== "create" ) {
+					document.querySelector(".editor").classList.remove("hidden");
+					document.querySelector("zdk-marked").classList.add("hidden");
+				} else {
+					document.querySelector(".editor").classList.add("hidden");
+					document.querySelector("zdk-marked").classList.remove("hidden");
+				}
 			}
 			function scroll() {
 				var main = document.querySelector("[main]");

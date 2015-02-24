@@ -1,34 +1,35 @@
 {
-	"name": "zdk-md-app",
-	"version": "0.2.0-pre",
-	"authors": [
-		"Fabrice <fabrice.lecoz@zedesk.net>"
-	],
-	"description": "A markdown viewer app",
-	"main": "index.htm",
-	"keywords": [
-		"markdown",
-		"nw"
-	],
-	"license": "MIT",
-	"private": true,
-	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"tests"
-	],
-	"dependencies": {
+  "name": "zdk-md-app",
+  "version": "0.2.0-pre",
+  "authors": [
+    "Fabrice <fabrice.lecoz@zedesk.net>"
+  ],
+  "description": "A markdown viewer app",
+  "main": "index.htm",
+  "keywords": [
+    "markdown",
+    "nw"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
     "polymer": "Polymer/polymer",
-		"paper-dialog": "Polymer/paper-dialog",
+    "paper-dialog": "Polymer/paper-dialog",
     "paper-shadow": "Polymer/paper-shadow",
     "paper-fab": "Polymer/paper-fab",
     "paper-button": "Polymer/paper-button",
-		"core-toolbar": "Polymer/core-toolbar",
-		"core-drawer-panel": "Polymer/core-drawer-panel",
-		"core-tooltip": "polymer/core-tooltip",
-		"core-dropdown": "Polymer/core-dropdown",
-		"highlightjs": "~8.3.0"
-	}
+    "core-toolbar": "Polymer/core-toolbar",
+    "core-drawer-panel": "Polymer/core-drawer-panel",
+    "core-tooltip": "polymer/core-tooltip",
+    "core-dropdown": "Polymer/core-dropdown",
+    "highlightjs": "~8.3.0",
+    "codemirror": "~5.0.0"
+  }
 }

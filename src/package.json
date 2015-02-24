@@ -16,7 +16,7 @@
 		"markdown"
 	],
 	"dependencies": {},
-	"single-instance":true,
+	"single-instance":false,
 	"chromium-args": "--enable-threaded-compositing --enable-html-imports --remote-debugging-port=9222",
 	"window": {
 		"title": "zeDesk markdown",
@@ -28,6 +28,9 @@
 		"position": "mouse",
 		"min_width": 800,
 		"min_height": 600
+	},
+	"webkit": {
+		"plugin": true
 	},
 	"licence": "MIT",
 	"devDependencies": {}

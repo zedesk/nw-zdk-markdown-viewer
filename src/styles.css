@@ -39,6 +39,7 @@ core-drawer-panel {
 	padding:20px 10px;
 	font-size: initial;
 	overflow: auto;
+	display: flex;
 }
 
 core-drawer-panel[narrow] button {
@@ -147,6 +148,24 @@ paper-fab {
 
 paper-fab:hover {
     opacity:1;
+}
+
+div.editor {
+	position: relative;
+	box-sizing: border-box;
+	overflow: auto;
+	flex-direction: column;
+	background: lavender;
+	flex: 1;
+	display:flex;
+}
+
+.CodeMirror {
+	flex:1;
+}
+
+.hidden {
+	display:none;
 }
 
 /* iframe panel */
