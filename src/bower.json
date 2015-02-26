@@ -30,6 +30,6 @@
     "core-tooltip": "polymer/core-tooltip",
     "core-dropdown": "Polymer/core-dropdown",
     "highlightjs": "~8.3.0",
-    "codemirror": "~5.0.0"
+    "code-mirror": "PolymerLabs/code-mirror#~0.5.0"
   }
 }
