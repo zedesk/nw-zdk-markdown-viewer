@@ -150,6 +150,14 @@ paper-fab:hover {
     opacity:1;
 }
 
+.CodeMirror {
+	flex:1;
+}
+
+.hidden {
+	display:none;
+}
+
 div.editor {
 	position: relative;
 	box-sizing: border-box;
@@ -160,11 +168,7 @@ div.editor {
 	display:flex;
 }
 
-.CodeMirror {
-	flex:1;
-}
-
-.hidden {
+div.editor.hidden {
 	display:none;
 }
 

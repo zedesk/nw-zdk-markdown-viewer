@@ -301,6 +301,12 @@ function App() {
 		});
 	}
 
+	this.getSrc = function() {
+		var marked = document.querySelector("zdk-marked");
+		var editor = document.querySelector("code-mirror");
+		editor.value = marked.innerHTML;
+	}
+	
 	this.open = function( file, auto ) {
 		if( !file.match(/^.\//)) {
 			fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
