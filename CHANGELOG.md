@@ -2,7 +2,7 @@
 % zedesk.net
 % December, 2014
 
-# v0.2.0-Pre
+# v0.2.0
 
   - new UI
   - FIX inside link
