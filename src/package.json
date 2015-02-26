@@ -1,7 +1,7 @@
 {
 	"name": "zdk-Markdown-Viewer",
 	"main": "index.htm",
-	"version": "0.1.1",
+	"version": "0.2.0-dev",
 	"description": "A node-webkit application to read markdown files",
 	"author": "zedesk.net <dev@zedesk.net>",
 	"contributors": [
@@ -16,18 +16,21 @@
 		"markdown"
 	],
 	"dependencies": {},
-	"single-instance":true,
-	"chromium-args": "--enable-threaded-compositing --enable-html-imports",
+	"single-instance":false,
+	"chromium-args": "--enable-threaded-compositing --enable-html-imports --remote-debugging-port=9222",
 	"window": {
 		"title": "zeDesk markdown",
 		"icon": "img/MMD.png",
 		"toolbar": false,
 		"frame": true,
 		"width": 800,
-		"height": 600,
+		"height": 900,
 		"position": "mouse",
 		"min_width": 800,
 		"min_height": 600
+	},
+	"webkit": {
+		"plugin": true
 	},
 	"licence": "MIT",
 	"devDependencies": {}

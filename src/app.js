@@ -22,36 +22,34 @@ gui.App.on('open', function(cmdline) {
 	var win = gui.Window.get();
 	filename = path.basename(cmdline);
 	dir = path.dirname(cmdline);
-	app.getMdFiles(false);
+	app.openDir();
 	app.open(filename);
 });
 
 fs.appendFile(log, "opening...\n");
 var dir, filename;
 if(gui.App.argv.length && fs.existsSync(gui.App.argv[0])) {
+	fs.appendFile(log, "opening given dir \n");
 	dir = path.normalize(gui.App.argv[0]);
 	if([".",".."].indexOf(dir) !== -1 ) {
+		fs.appendFile(log, "normakize \n");
 		dir = path.normalize(process.env.PWD+"/"+dir);
 	}
 	var stat = fs.statSync(dir);
 	if(stat.isFile()) {
 		filename = path.basename(dir);
 		dir = path.dirname(dir);
+	} else {
+		if( dir.slice(-1) === "/" ) { dir = dir.slice( 0, -1 ) }
 	}
 } else {
-	dir = gui.App.dataPath;
-	switch(os.platform()) {
-		case "darwin":
-			dir = dir.slice(0,dir.lastIndexOf("/Library"));
-			break;
-		case "linux":
-			dir = dir.slice(0,dir.lastIndexOf("/.config"));
-			break;
-	}
+	fs.appendFile(log, "default\n");
+	dir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+	fs.appendFile(log, "dir : "+dir+"\n");
 }
 fs.appendFile(log, "dir "+dir+"\n");
 fs.appendFile(log, "filename "+filename+"\n");
-fs.appendFile(log, "appname "+gui.App.manifest.name);
+fs.appendFile(log, "appname "+gui.App.manifest.name+"\n");
 
 var win = gui.Window.get();
 var nativeMenuBar = new gui.Menu({ type: "menubar" });
@@ -63,11 +61,13 @@ try {
 	win.menu = nativeMenuBar;
 } catch (ex) { }
 
-window.addEventListener("DOMContentLoaded", initApp, false);
+window.addEventListener("polymer-ready", initApp, false);
 
 var app;
 function initApp() {
 	fs.appendFile(log, "initApp\n" );
+	//var cm = document.querySelector("code-mirror");
+	// cm.mirror.setOption("lineWrapping",true);
 	app = new App();
 	app.run();
 }
@@ -96,10 +96,10 @@ function App() {
 			var stats = fs.statSync(file.path);
 			if( stats.isDirectory() ) {
 				dir = file.path;
-				that.getMdFiles.call(that, true);
+				that.openDir.call(that, true);
 			} else {
 				dir = path.dirname(file.path);
-				that.getMdFiles.call(that)
+				that.openDir.call(that)
 					.then( function() {
 						that.open.call(that,path.basename(file.path));
 					});
@@ -109,21 +109,36 @@ function App() {
 		}
 	})(this);
 
-	/**
-	 * Show tip on directory
-	 */
 	(function() {
-		document.querySelector("#directory header").addEventListener("mouseover", function() {
-			this.querySelector(".tip").style.display = "block";
-		});
-		document.querySelector("#directory header").addEventListener("mouseout", function() {
-			this.querySelector(".tip").style.display = "none";
-		});
+		var title = document.querySelector("core-toolbar div");
+		var zdkMarked = document.querySelector("zdk-marked");
+		if(zdkMarked.parsed) {
+			console.log("meta",zdkMarked.getMeta());
+		}
+		zdkMarked.addEventListener("parsed", function() {
+			var meta = zdkMarked.getMeta();
+			title.innerHTML = meta.title;
+			document.querySelector("template#toc").model = { toc:zdkMarked.getToc()};
+		}, false);
+	})();
+
+	(function() {
+		var tocMenu = document.querySelector("#tocMenu");
+		var zdkMarked = document.querySelector("zdk-marked");
+		tocMenu.addEventListener("click", function(evt) {
+			var link = evt.srcElement;
+			if( link.tagName === "LI") {
+				link = link.querySelector("a");
+			}
+			console.log(link.getAttribute("href"));
+			zdkMarked.goLink(link.getAttribute("href"));
+		}, false);
 	})();
 
 	/**
-	 * Show history panel
-	 */
+	* Show history panel
+	*/
+	/*
 	(function() {
 		document.querySelector("#history header").addEventListener("click", function() {
 			var history = this.parentElement;
@@ -134,6 +149,7 @@ function App() {
 			}
 		});
 	})();
+	*/
 
 	/**
 	* Get Title of the iframe
@@ -148,9 +164,29 @@ function App() {
 		}, false);
 	})();
 
-	this.getMdFiles = function( readme ) {
+	function _watchDir( App ) {
+		if (watchDir) {
+			if( watchDir !== dir ) {
+				fs.unwatchFile(watchDir);
+			} else {
+				return;
+			}
+		}
+
+		// var that = this;
+		watchDir = dir;
+		fs.watchFile(watchDir, function (evt, filename) {
+			App.openDir( )
+				.catch( function(err) {
+					// @TODO show an error panel
+					fs.unwatchFile(watchDir);
+					console.error(err);
+				});
+		});
+	}
+	
+	this.openDir = function( auto ) {
 		var that = this;
-		readme = readme || false;
 
 		return new Promise(function(resolve, reject) {
 			fs.readdir( dir, function(err,list) {
@@ -168,20 +204,20 @@ function App() {
 				var count = list.length;
 				if(!count) { resolve(); }
 
-				document.querySelector("#directory header .tip").innerHTML = dir;
+				document.querySelector("core-tooltip [tip]").innerHTML = dir;
 				if(dir != "/") {
-					document.querySelector("#directory header .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
+					document.querySelector("core-tooltip .title").innerHTML = dir.slice(dir.lastIndexOf("/")+1);
 					li = document.createElement("li");
 					li.innerHTML = "..";
 					var func = function() {
 						dir = dir.slice(0,dir.lastIndexOf("/"));
 						if(!dir.length) { dir = "/"; }
-						that.getMdFiles(true);
+						that.openDir(true);
 					};
 					li.addEventListener("click",func,false);
 					ul.appendChild(li);
 				} else {
-					document.querySelector("#directory header .title").innerHTML = "/";
+					document.querySelector("core-tooltip .title").innerHTML = "/";
 				}
 				var folders = document.createDocumentFragment();
 
@@ -213,16 +249,19 @@ function App() {
 										li.classList.add("select");
 									}
 									ul.appendChild(li);
-									if(readme && file.toLowerCase() === "readme.md") {
-										that.open(file);
+									// fs.appendFile(log,'file ' + file + " auto :"+auto+'\n');
+									if( auto && file.toLowerCase() === "readme.md") {
+										// fs.appendFile(log,'try to open ' + file +'\n');
+										that.open(file, true);
 									}
+									
 								}
 								if(stats.isDirectory()) {
 									li.classList.add("folder");
 									li.innerHTML = file;
 									func = function() {
 										dir += "/"+file;
-										that.getMdFiles(true);
+										that.openDir(true);
 									};
 									li.addEventListener("click",func,false);
 									folders.appendChild(li);
@@ -235,7 +274,7 @@ function App() {
 										li.innerHTML = file;
 										func = function() {
 											dir = link;
-											that.getMdFiles(true);
+											that.openDir(true);
 										};
 										li.addEventListener("click",func,false);
 										folders.appendChild(li);
@@ -262,34 +301,26 @@ function App() {
 				});
 			});
 		});
-	};
-
-	function _watchDir( App ) {
-		if (watchDir) {
-			if( watchDir !== dir ) {
-				fs.unwatchFile(watchDir);
-			} else {
-				return;
-			}
-		}
-
-		// var that = this;
-		watchDir = dir;
-		fs.watchFile(watchDir, function (evt, filename) {
-			App.getMdFiles( )
-				.catch( function(err) {
-					// @TODO show an error panel
-					fs.unwatchFile(watchDir);
-					console.error(err);
-				});
-		});
 	}
 
-	this.open = function(file) {
-		fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
+	this.getSrc = function() {
+		var marked = document.querySelector("zdk-marked");
+		var editor = document.querySelector("code-mirror");
+		editor.value = marked.innerHTML;
+	}
+	
+	this.open = function( file, auto ) {
+		if( !file.match(/^.\//)) {
+			fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
+		} else {
+			fs.appendFile(log, "open file "+ file+"\n");
+		}
 		var that = this;
 
 		return new Promise(function(resolve, reject) {
+			if( !auto && document.querySelector("core-drawer-panel").selected === "drawer" ) {
+				document.querySelector("core-drawer-panel").togglePanel();
+			}
 			var zdkMarked = document.querySelector("zdk-marked");
 			var internet = document.querySelector("#internet");
 
@@ -297,13 +328,18 @@ function App() {
 				internet.querySelector("iframe").src = "load.htm";
 				internet.style.display = "none";
 			}
-			var filePath = dir + "/" + file;
+			
+			if( !file.match(/^.\//)) {
+				var filePath = dir + "/" + file;
 
-			var dirPath = path.dirname( filePath );
-			if( dirPath !== dir ) {
-				// TODO give dir as argument
-				dir = dirPath;
-				that.getMdFiles( false );
+				var dirPath = path.dirname( filePath );
+				if( dirPath !== dir ) {
+					// TODO give dir as argument
+					dir = dirPath;
+					that.openDir( false );
+				}
+			} else {
+				filePath = file;
 			}
 
 			if( zdkMarked.getAttribute("path") !== filePath) {
@@ -342,12 +378,12 @@ function App() {
 		if(internet.style.display === "flex") {
 			internet.querySelector("iframe").src = "load.htm";
 			internet.style.display = "none";
-	    }
+		}
 	};
 
 	this.run = function() {
 		var spawn = require('child_process').spawn,
-		    os    = require("os");
+			os    = require("os");
 		var that = this;
 		var zdkMarked = document.querySelector("zdk-marked");
 		zdkMarked.addEventListener("link", function(e) {
@@ -358,25 +394,20 @@ function App() {
 					break;
 				case "pdf":
 				case "internal":
-					var openCmd;
-					switch( os.platform() ) {
-						case "darwin" :
-							openCmd = "open";
-							break;
-						case "linux":
-							openCmd = "xdg-open";
-							break;
+					if( link.href[0] === "#") {
+						zdkMarked.goLink(link.href);
+					} else {
+						var openCmd;
+						switch( os.platform() ) {
+							case "darwin" :
+								openCmd = "open";
+								break;
+							case "linux":
+								openCmd = "xdg-open";
+								break;
+						}
+						var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
 					}
-
-					var xdgOpen = spawn(openCmd,[dir+"/"+link.href]);
-
-					/*
-					var iframe = document.querySelector("iframe#ext");
-					document.querySelector("#internet .title").innerHTML = "Loading ...";
-					document.querySelector("#internet .url").innerHTML = "";
-					iframe.src = "file://"+dir+"/"+link.href;
-					document.querySelector("#internet").style.display = "flex
-					*/
 					break;
 				case "external" :
 					var iframe = document.querySelector("iframe#ext");
@@ -387,10 +418,13 @@ function App() {
 					break;
 			}
 		},false);
-		this.getMdFiles(filename?false:true)
+		this.openDir( filename?false:true )
 			.then( function() {
 				if(filename) {
+					console.log( "filename",filename )
 					that.open(filename);
+				} else {
+					that.open( "./README.md");
 				}
 			});
 	};

@@ -1,6 +1,6 @@
 {
   "name": "zdk-md-app",
-  "version": "0.1.0",
+  "version": "0.2.0-pre",
   "authors": [
     "Fabrice <fabrice.lecoz@zedesk.net>"
   ],
@@ -20,7 +20,16 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#~0.3.2",
-    "highlightjs": "~8.0.0"
+    "polymer": "Polymer/polymer",
+    "paper-dialog": "Polymer/paper-dialog",
+    "paper-shadow": "Polymer/paper-shadow",
+    "paper-fab": "Polymer/paper-fab",
+    "paper-button": "Polymer/paper-button",
+    "core-toolbar": "Polymer/core-toolbar",
+    "core-drawer-panel": "Polymer/core-drawer-panel",
+    "core-tooltip": "polymer/core-tooltip",
+    "core-dropdown": "Polymer/core-dropdown",
+    "highlightjs": "~8.3.0",
+    "code-mirror": "PolymerLabs/code-mirror#~0.5.0"
   }
 }

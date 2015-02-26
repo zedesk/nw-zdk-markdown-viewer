@@ -10,33 +10,32 @@
 		:host {
 			display:flex;
 			position:relative;
-            box-sizing:border-box;
-            overflow:hidden;
-            flex-direction: column;
+			box-sizing:border-box;
+			overflow:hidden;
+			flex-direction: column;
 		}
 		</style>
-		<div id="banner">
-			<div class="meta">
-				<span class="title"></span>
-				<span class="author"></span>
-				<span class="date"></span>
-			</div>
-			<img class="toc" src="../img/toc.png" width="50" height="50" alt="List">
-		</div>
+
 		<div id="markdown"></div>
-		<div id="toc"></div>
 	</template>
-	
+
 	<script>
 	Polymer('zdk-marked',{
 		src : "",
 		path: "",
 		toclevel: 3,
 		scroll: 0,
-		
+		parsed: false,
+		toc: [],
+		meta : {
+					title:"",
+					author:"",
+					date:""
+				},
+
 		ready : function() {
 			hljs.initHighlightingOnLoad();
-			
+
 			var options = {
 				gfm: true,
 				highlight: function (code, lang) {
@@ -51,24 +50,11 @@
 				langPrefix: 'lang-'
 			};
 			marked.setOptions(options);
-			
+
 			var that = this;
-			this.$.banner.querySelector("img.toc").addEventListener("click", function() {
-				that.toggleToc();
-			},false);
-			
+
 			this.toHTML();
-			
-			this.$.toc.addEventListener("click", function(evt) {
-				that.toggleToc();
-				if( evt.target.tagName.toLowerCase() !== "div" ) return;
-				var link = evt.target.getAttribute("link");
-				var target = that.$.markdown.querySelector(link);
-				if(target) {
-					target.scrollIntoView(true);
-				}
-			}, false);
-			
+
 			this.$.markdown.addEventListener("scroll", function(evt) {
 				that.setAttribute("scroll",that.$.markdown.scrollTop);
 			}, false);
@@ -81,54 +67,74 @@
 			if( newValue === oldValue ) return;
 			this.setAttribute('scroll', 0 );
 		},
-		showToc: function() {
-			this.$.toc.style.display = "block";
-		},
-		hideToc: function() {
-			this.$.toc.style.display = "none";
-		},
-		toggleToc: function() {
-			this.$.toc.style.display = this.$.toc.style.display==="block"?"none":"block";
-		},
 		calcToc: function() {
 			var list = this.$.markdown.querySelectorAll("h1,h2,h3,h4,h5,h6");
-			var toc = "";
+			var toc = [];
 			for(var i=0;i<list.length;i++) {
 				var level = +list.item(i).tagName.substr(1);
 				if(level <= this.toclevel ) {
-					// toc+= "<a href='#"+list.item(i).id+"'>";
-					toc+= "<div class='tm"+level+"' link='#"+list.item(i).id+"'>"+list.item(i).textContent+"</div>\n"
+					toc.push( {
+						level:level,
+						link:list.item(i).id,
+						label:list.item(i).textContent
+					});
 				}
 			}
-			this.$.toc.innerHTML = toc;
+			this.toc = toc;
 		},
 		toclevelChanged: function(oldValue, newValue) {
 			if( oldValue === newValue ) return;
 			this.setAttribute("toclevel",newValue);
 			this.calcToc();
 		},
+		getMeta: function() {
+			return this.meta;
+		},
+		getToc: function() {
+			return this.toc;
+		},
+		goLink: function(link) {
+			var target;
+			try {
+				target = this.$.markdown.querySelector(link);
+				if(target) {
+					return target.scrollIntoView(true);
+				}
+			} catch( err ) { 
+				// console.error(err); 
+			};
+			try {
+				target = this.$.markdown.querySelector('*[name="'+link.slice(1)+'"]');
+				if(target) {
+					return target.scrollIntoView(true);
+				}
+			} catch( err ) { 
+				// console.error(err); 
+			};
+		},
 		toHTML: function() {
+			this.parsed = false;
 			var text = "";
-			
+
 			if(this.src) {
 				var xhr = new XMLHttpRequest();
 				xhr.open("GET",this.src,false);
 				xhr.send(null);
-				text = xhr.responseText;    
+				text = xhr.responseText;
 			} else {
 				text = this.textContent;
 			}
-			
+
 			var that= this;
-				
+
 			marked(text, {}, function (err, content) {
 				var div = document.createElement("div");
 				div.innerHTML = content;
-				
+
 				var appPath = window.location.href.slice(0,window.location.href.lastIndexOf("/"));
 				if( that.path && appPath.match(/^file:\/\/\//)) {
 					var imgs = div.querySelectorAll("img");
-					
+
 					imgs = [].slice.call(imgs,0);
 					imgs.forEach( function(img) {
 						var src = img.src;
@@ -140,10 +146,10 @@
 				if( that.scroll) {
 					that.$.markdown.scrollTop = parseInt(that.scroll,10);
 				} else {
-                	that.$.markdown.scrollTop = 0;
+					that.$.markdown.scrollTop = 0;
 					that.setAttribute("scroll",0);
 				}
-		
+
 				var links = that.$.markdown.querySelectorAll("a[href]");
 				links = [].slice.call(links,0);
 				links.forEach( function(link) {
@@ -159,8 +165,8 @@
 						return false;
 					}, false);
 				});
-                
-				if(div.querySelector("header")) { 
+
+				if(div.querySelector("header")) {
 					that.meta = {
 						title:  div.querySelector("header .title").innerText,
 						author: div.querySelector("header .author").innerText,
@@ -173,16 +179,18 @@
 						date:""
 					};
 				}
-				
+
 				that.calcToc();
-				
+
+				/*
 				that.$.banner.querySelector(".title").innerHTML  = that.meta.title;
 				that.$.banner.querySelector(".author").innerHTML = that.meta.author;
 				that.$.banner.querySelector(".date").innerHTML   = that.meta.date;
-				
+				*/
+				this.parsed = true;
 				that.fire("parsed");
 			});
-		
+
 			this.onMutation(this, this.toHTML);
 		}
 	});
