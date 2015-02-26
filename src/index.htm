@@ -24,7 +24,9 @@
 		<link rel="import" href="bower_components/paper-shadow/paper-shadow.html">
 		<link rel="import" href="bower_components/core-tooltip/core-tooltip.html">
 		<link rel="import" href="zdk-marked/zdk-marked.htm">
+		<!--
 		<link rel="import" href="bower_components/code-mirror/code-mirror.html">
+		-->
 		<!--
 		<script src="bower_components/codemirror/lib/codemirror.js"></script>
 		<link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
@@ -103,12 +105,14 @@
 					<iframe nwdisable nwfaketop id="ext" src="load.htm"></iframe>
 				</div>
 				
+				<!--
 				<div class="editor hidden">
 					<code-mirror flex theme="cobalt" ></code-mirror>
 				</div>
+				--> 
 				
 				<div class="action">
-					<paper-fab mini icon="create" onclick="toggleView()"></paper-fab>
+					<!-- <paper-fab mini icon="create" onclick="toggleView()"></paper-fab> -->
 					<paper-fab mini icon="arrow-drop-up" onclick="scroll()"></paper-fab>
 				</div>
 				
