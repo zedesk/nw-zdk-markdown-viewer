@@ -1,5 +1,5 @@
-% README
-% zedesk.net
+% README  
+% zedesk.net  
 % June 2014
 
 # Presentation
@@ -10,11 +10,11 @@ zdk-markdown is a markdown viewer, based on the [marked.js](https://github.com/c
 
 The following paragraph is a copy of the content of [Mardown: Syntax](http://daringfireball.net/projects/markdown/syntax)
 
-## PARAGRAPHS AND LINE BREAKS
+## Paragraphs and line breaks
 
 A paragraph is simply one or more consecutive lines of text, separated by one or more blank lines. (A blank line is any line that looks like a blank line — a line containing nothing but spaces or tabs is considered blank.) Normal paragraphs should not be indented with spaces or tabs.
 
-The implication of the “one or more consecutive lines of text” rule is that Markdown supports “hard-wrapped” text paragraphs. This differs significantly from most other text-to-HTML formatters (including Movable Type’s “Convert Line Breaks” option) which translate every line break character in a paragraph into a <br /> tag.
+The implication of the “one or more consecutive lines of text” rule is that Markdown supports “hard-wrapped” text paragraphs. This differs significantly from most other text-to-HTML formatters (including Movable Type’s “Convert Line Breaks” option) which translate every line break character in a paragraph into a `<br/>` tag.
 
 When you do want to insert a `<br/>` break tag using Markdown, you end a line with two or more spaces, then type return.
 
@@ -22,7 +22,7 @@ When you do want to insert a `<br/>` break tag using Markdown, you end a line wi
 
 Yes, this takes a tad more effort to create a `<br/>`, but a simplistic “every line break is a `<br/>`” rule wouldn’t work for Markdown. Markdown’s email-style blockquoting and multi-paragraph list items work best — and look better — when you format them with hard breaks.
 
-## HEADERS
+## Headers
 
 Markdown supports two styles of headers, Setext and atx.
 
@@ -58,7 +58,7 @@ Optionally, you may “close” atx-style headers. This is purely cosmetic — y
 ### This is an H3 ######
 ~~~
 
-## BLOCKQUOTES
+## Blockquotes
 
 Markdown uses email-style > characters for blockquoting. If you’re familiar with quoting passages of text in an email message, then you know how to create a blockquote in Markdown. It looks best if you hard wrap the text and put a > before every line:
 
@@ -135,7 +135,7 @@ The result will be :
 
 Any decent text editor should make email-style quoting easy. For example, with BBEdit, you can make a selection and choose Increase Quote Level from the Text menu.
 
-# LISTS
+# Lists
 
 Markdown supports ordered (numbered) and unordered (bulleted) lists.
 
@@ -311,7 +311,7 @@ In other words, a number-period-space sequence at the beginning of a line. To av
 1986\. What a great season.
 ~~~
 
-# CODE BLOCKS
+# Code blocks
 
 Pre-formatted code blocks are used for writing about programming or markup source code. Rather than forming normal paragraphs, the lines of a code block are interpreted literally. Markdown wraps a code block in both `<pre>` and `<code>` tags.
 
@@ -366,7 +366,8 @@ Within a code block, ampersands (&) and angle brackets (< and >) are automatical
 will turn into:
 
 ~~~
-<pre><code>&lt;div class="footer"&gt;
+<pre><code>
+&lt;div class="footer"&gt;
     &amp;copy; 2004 Foo Corporation
 &lt;/div&gt;
 </code></pre>
@@ -374,9 +375,9 @@ will turn into:
 
 Regular Markdown syntax is not processed within code blocks. E.g., asterisks are just literal asterisks within a code block. This means it’s also easy to use Markdown to write about Markdown’s own syntax.
 
-# HORIZONTAL RULES
+# Horizontal rules
 
-You can produce a horizontal rule tag (<hr />) by placing three or more hyphens, asterisks, or underscores on a line by themselves. If you wish, you may use spaces between the hyphens or asterisks. Each of the following lines will produce a horizontal rule:
+You can produce a horizontal rule tag ( `<hr/> ` ) by placing three or more hyphens, asterisks, or underscores on a line by themselves. If you wish, you may use spaces between the hyphens or asterisks. Each of the following lines will produce a horizontal rule:
 
 ~~~
 * * *
@@ -390,4 +391,4 @@ You can produce a horizontal rule tag (<hr />) by placing three or more hyphens,
 ---------------------------------------
 ~~~
 
-
+That's all folks !

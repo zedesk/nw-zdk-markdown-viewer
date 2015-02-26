@@ -3,21 +3,24 @@
 /* jshint node:true */
 
 module.exports = function(grunt) {
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        nodewebkit: {
-            options: {
-                build_dir: './dist',
-                // choose what platforms to compile for here
-                mac: true,
-                win: true,
-                linux32: true,
-                linux64: true
-            },
-            src: ['./src/**/*']
-        }
-    });
+	grunt.initConfig({
+		nodewebkit: {
+			options: {
+				version: '0.11.6',
+				buildDir:"./dist",
+				buildType:"versioned",
+				appVersion:"0.2.0-pre",
+				// choose what platforms to compile for here
+				platforms:['osx', 'linux32', 'linux64', 'win64'],
+				//platforms:['osx'],
+				macIcns: './icns/MMD.icns',
+				macPlist:'./Info.plist',
+				winIco:'./icns/MMD.ico'
+			},
+			src: ['./src/**/*']
+		}
+	});
 
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
-    grunt.registerTask('default', ['nodewebkit']);
+	grunt.loadNpmTasks('grunt-node-webkit-builder');
+	grunt.registerTask('default', ['nodewebkit']);
 };

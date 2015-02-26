@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+ <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+   <mime-type type="text/md">  
+   <comment>Markdown File</comment>
+   <comment xml:lang="fr">Fichier markdown</comment>
+   <glob pattern="*.md"/>
+  </mime-type>
+ </mime-info>
