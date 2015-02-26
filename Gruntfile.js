@@ -11,8 +11,8 @@ module.exports = function(grunt) {
 				buildType:"versioned",
 				appVersion:"0.2.0-pre",
 				// choose what platforms to compile for here
-				// platforms:['osx', 'linux32', 'linux64', 'win'],
-				platforms:['osx', 'linux32', 'linux64'],
+				platforms:['osx', 'linux32', 'linux64', 'win64'],
+				//platforms:['osx'],
 				macIcns: './icns/MMD.icns',
 				macPlist:'./Info.plist',
 				winIco:'./icns/MMD.ico'
