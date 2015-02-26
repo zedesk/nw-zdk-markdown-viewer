@@ -66,6 +66,8 @@ window.addEventListener("polymer-ready", initApp, false);
 var app;
 function initApp() {
 	fs.appendFile(log, "initApp\n" );
+	var cm = document.querySelector("code-mirror");
+	cm.mirror.setOption("lineWrapping",true);
 	app = new App();
 	app.run();
 }
