@@ -1,0 +1,10 @@
+Package: zdkMarkdownViewer
+Version: 0.2
+Section: text
+Priority: optional
+Architecture: amd64
+Maintainer: Fabrice Le Coz <dev@zedesk.net>
+Description: zdk-Markdown-viewer
+ A markdown viewer and explorer
+
+

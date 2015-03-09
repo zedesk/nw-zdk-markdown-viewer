@@ -1,0 +1,2 @@
+#! /bin/sh
+/usr/local/share/zdkMarkdownViewer/zdk-Markdown-Viewer $@

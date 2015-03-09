@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=zdkMarkdownViewer
+Version=0.2.0
+Exec=zdkMarkdownViewer
+Comment=A markdown viewer
+Icon=/usr/local/share/zdkMarkdownViewer/MMD.png
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+Categories=Utility;
