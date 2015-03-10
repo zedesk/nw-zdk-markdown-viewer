@@ -6,10 +6,10 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		nodewebkit: {
 			options: {
-				version: '0.11.6',
+				version: '0.12.0',
 				buildDir:"./dist",
 				buildType:"versioned",
-				appVersion:"0.2.0-pre",
+				appVersion:"0.2.0",
 				// choose what platforms to compile for here
 				platforms:['osx64', 'linux64', 'win64'],
 				//platforms:['osx'],
