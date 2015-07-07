@@ -76,7 +76,8 @@ function App() {
 
 	var watchFile = null;
 	var watchDir = null;
-
+	var anchor = null;
+	
 	this.nav = document.querySelector("nav ul");
 
 	/**
@@ -119,6 +120,12 @@ function App() {
 			var meta = zdkMarked.getMeta();
 			title.innerHTML = meta.title;
 			document.querySelector("template#toc").model = { toc:zdkMarked.getToc()};
+			if( anchor ) {
+				setTimeout( function() {
+					console.log("anchor", anchor);
+					zdkMarked.goLink(anchor);
+				}, 200);
+			}
 		}, false);
 	})();
 
@@ -316,6 +323,14 @@ function App() {
 			fs.appendFile(log, "open file "+ file+"\n");
 		}
 		var that = this;
+		
+		var tmp = file.split("#");
+		if( tmp.length > 1 ) {
+			file = tmp[0];
+			anchor = "#"+tmp[1];
+		} else {
+			anchor = null;
+		}
 
 		return new Promise(function(resolve, reject) {
 			if( !auto && document.querySelector("core-drawer-panel").selected === "drawer" ) {
@@ -352,7 +367,7 @@ function App() {
 
 				zdkMarked.textContent = data;
 				_watchFile( that, filePath );
-
+				
 				resolve();
 			});
 		});
