@@ -14,7 +14,7 @@ In the previous version, I use grunt "grunt-node-webkit-builder". This grunt pac
 
 Get node-webkit : 
 
-The zdk-Markdown-Viewer app use the last version of node-webkit ( v0.10.2 )
+The zdk-Markdown-Viewer app use the last version of node-webkit ( v0.12.2 )
 
 To know what version to install
 

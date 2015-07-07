@@ -2,6 +2,12 @@
 % zedesk.net
 % December, 2014
 
+# v0.2.1
+
+ - allow to have anchored link for markdown file : file.md#anchor
+ - ensure that the rendered file take all the available width
+ - display the github link in the internet iframe
+  
 # v0.2.0
 
   - new UI
