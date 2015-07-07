@@ -67,6 +67,10 @@ core-drawer-panel[narrow] button {
     color:aquamarine;
 }
 
+zdk-marked {
+    width:100%;
+}
+
 paper-button[autofocus] {
       color: #4285f4;
 }
