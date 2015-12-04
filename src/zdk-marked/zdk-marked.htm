@@ -137,8 +137,8 @@
 
 					imgs = [].slice.call(imgs,0);
 					imgs.forEach( function(img) {
-						var src = img.src;
-						img.src = img.src.replace(appPath,"file://"+that.path.slice(0,that.path.lastIndexOf("/")));
+						var src = img.getAttribute('src');
+						img.src = "file://"+that.path.slice(0,that.path.lastIndexOf("/"))+"/"+src+"?"+(new Date()).valueOf();
 					})
 					content = div.innerHTML;
 				}
