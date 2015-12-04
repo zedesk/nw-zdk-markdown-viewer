@@ -6,7 +6,7 @@
 
 (function () {
     "use strict";
-    
+
     /**
      * Block-Level Grammar
      */
@@ -19,7 +19,7 @@
         heading: /^ *(#{1,6}) *([^\n]+?) *#* *(?:\n+|$)/,
         nptable: noop,
         lheading: /^([^\n]+)\n *(=|-){2,} *(?:\n+|$)/,
-        blockquote: /^( *>[^\n]+(\n(?!def)[^\n]+)*\n*)+/,
+        blockquote: /^( *>[^\n]+(\n(?!def)[^\n]+)*\n)+/,
         meta: /^( *)((?:[\%]|\d+\.)) [\s\S]+?(?:\n+(?=(?: *[-*_]){3,} *(?:\n+|$))|\n{2,}(?! )(?!\1(?:[\%]|\d+\.) )\n*|\s*$)/,
         list: /^( *)(bull) [\s\S]+?(?:hr|def|\n{2,}(?! )(?!\1bull )\n*|\s*$)/,
         html: /^ *(?:comment *(?:\n|\s*$)|closed *(?:\n{2,}|\s*$)|closing *(?:\n{2,}|\s*$))/,
@@ -35,7 +35,7 @@
     block.item = replace(block.item, 'gm')
         (/bull/g, block.bullet)
         ();
-		
+
     block.list = replace(block.list)
 	    (/bull/g, block.bullet)
 	    ('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
@@ -45,7 +45,7 @@
     block.blockquote = replace(block.blockquote)
         ('def', block.def)
         ();
-		
+
     block._tag = '(?!(?:'
         + 'a|em|strong|small|s|cite|q|dfn|abbr|data|time|code'
         + '|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo'
@@ -115,7 +115,7 @@
             }
         }
     }
-	
+
 	function accentsTidy(s){
 		var r=s.toLowerCase();
 		r = r.replace(new RegExp("\\s", 'g'),"_");
@@ -124,7 +124,7 @@
 		r = r.replace(new RegExp("ç", 'g'),"c");
 		r = r.replace(new RegExp("[èéêë]", 'g'),"e");
 		r = r.replace(new RegExp("[ìíîï]", 'g'),"i");
-		r = r.replace(new RegExp("ñ", 'g'),"n");                            
+		r = r.replace(new RegExp("ñ", 'g'),"n");
 		r = r.replace(new RegExp("[òóôõö]", 'g'),"o");
 		r = r.replace(new RegExp("œ", 'g'),"oe");
 		r = r.replace(new RegExp("[ùúûü]", 'g'),"u");
@@ -337,7 +337,7 @@
                     this.tokens.push({
                         type: 'meta_item_'+metaItems[i]+'_start'
                     });
-                    
+
                     // Recurse.
                     this.token(item, false);
 
@@ -345,7 +345,7 @@
                         type: 'meta_item_'+metaItems[i]+'_end'
                     });
                 }
-                
+
                 this.tokens.push({
                     type: 'meta_end'
                 });
@@ -597,7 +597,7 @@
         this.rules = inline.normal;
 		this.renderer = this.options.renderer || new Renderer;
 		this.renderer.options = this.options;
-		
+
         if (!this.links) {
             throw new
                 Error('Tokens array requires a `links` property.');
@@ -821,7 +821,7 @@
 
         return out;
     };
-	
+
 	/**
 	 * Renderer
 	 */
@@ -1080,7 +1080,7 @@
 			 		, cell
 			 		, flags
 			 		, j;
-             		
+
 				// header
 				cell = '';
 				for (i = 0; i < this.token.header.length; i++) {
@@ -1091,10 +1091,10 @@
 					);
 				}
 				header += this.renderer.tablerow(cell);
-            	
+
 				for (i = 0; i < this.token.cells.length; i++) {
 					row = this.token.cells[i];
-            		
+
 					cell = '';
 					for (j = 0; j < row.length; j++) {
 						cell += this.renderer.tablecell(
@@ -1102,7 +1102,7 @@
 							{ header: false, align: this.token.align[j] }
 						);
 					}
-            		
+
 					body += this.renderer.tablerow(cell);
 				}
 				return this.renderer.table(header, body);
@@ -1237,7 +1237,7 @@
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
     }
-	
+
 	function unescape(html) {
 		return html.replace(/&([#\w]+);/g, function(_, n) {
 			n = n.toLowerCase();
@@ -1335,9 +1335,9 @@
             if (!highlight || highlight.length < 3) {
                 return done();
             }
-			
+
 			delete opt.highlight;
-			
+
             if (!pending) return done();
 
             for (; i < tokens.length; i++) {
@@ -1405,7 +1405,7 @@
 
     marked.Parser = Parser;
     marked.parser = Parser.parse;
-	
+
 	marked.Renderer = Renderer;
 
     marked.Lexer = Lexer;
