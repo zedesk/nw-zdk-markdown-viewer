@@ -8,7 +8,7 @@ General
    - allows email address in the header block
    - keep the last opened files
    - adds a editor panel
-   
+
 Header block
 ------------
 
@@ -24,16 +24,16 @@ Today the only header block supported is the pandoc title block :
 it will be great to support :
 
    - MMD header block
-   
+
    ~~~
    Title:  A New MultiMarkdown Document  
    Author: Fletcher T. Penney  
            John Doe  
    Date:   July 25, 2005  
    ~~~
-   
+
    - YAML Header block
-   
+
    ~~~
    title: My title with `markdown` *emphasis*
    author:
@@ -43,42 +43,42 @@ it will be great to support :
    date: September 6, 2004
    abstract: |
         A formatted abstract here.
-      
+
         May contain multiple paragraphs.
    ~~~
-   
+
 External links
 --------------
 
    - shows the page title and url in the header
    - adds a loader image
-   
+
 Tree view
 ---------
 
-   - <del>Add a refresh button to refresh the tree view</del>
-   - <del>better watch change on the opened folder</del>
-   - <del>Adds The folder name</del>
-   - <del>indicates the folder path</del>
+   - ~~Add a refresh button to refresh the tree view~~
+   - ~~better watch change on the opened folder~~
+   - ~~Adds The folder name~~
+   - ~~indicates the folder path~~
    - adds a history view
    - allows to create a new file ( need editor )
    - allows to create an index file
-   - <del>on changing folder, select the file if available</del>
-   
+   - ~~on changing folder, select the file if available~~
+
 Distribution
 ------------
 
    - create a download site
    - check update version
- 
+
 Bugs
 ----
 
    - add a panel to send bugs or feature
- 
+
 History view
 ------------
- 
- The idea is to maintain an ordered list of opened files, usefull to go back.
- 
+
+ The idea is to maintain an ordered list of opened files, useful to go back.
+
  Display the file title, file path and from now time.
