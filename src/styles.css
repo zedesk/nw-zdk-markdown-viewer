@@ -142,6 +142,7 @@ div.action {
     bottom: 30px;
     display:flex;
     flex-direction:column;
+	z-index:10000;
 }
 paper-fab {
 	margin-top:10px;
@@ -151,6 +152,10 @@ paper-fab {
 
 paper-fab:hover {
     opacity:1;
+}
+
+code-mirror {
+	margin:20px 5px;
 }
 
 .CodeMirror {

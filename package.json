@@ -1,29 +1,30 @@
 {
-	"name": "zeDesk-MMD",
-	"preferGlobal": false,
-	"version": "0.2.1",
-	"author": "zeDesk",
-	"description": "A markdown viewer and editor",
-	"contributors": [
-	{
-		"name": "Fabrice Le Coz",
-		"email": "fabrice.lecoz@zedesk.net"
-	}
-	],
-	"scripts": {
-		"start": "nw src",
-		"install":"cd src; bower install"
-	},
-	"main": "src/index.htm",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:zedesk/nw-zdk-markdown-viewer.github"
-	},
-	"dependencies": {
-	},
-	"analyze": false,
-	"devDependencies": {
-		"grunt": "~0.4.5",
-		"grunt-node-webkit-builder": "1.0.2"
-	}
+  "name": "zeDesk-MMD",
+  "preferGlobal": false,
+  "version": "0.2.2",
+  "author": "zeDesk",
+  "description": "A markdown viewer and editor",
+  "contributors": [
+    {
+      "name": "Fabrice Le Coz",
+      "email": "fabrice.lecoz@zedesk.net"
+    }
+  ],
+  "scripts": {
+    "start": "nwjs src",
+    "clean": "rm -rf src/bower_components && rm -rf node_modules",
+    "install": "cd src; bower install"
+  },
+  "main": "src/index.htm",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zedesk/nw-zdk-markdown-viewer.github"
+  },
+  "dependencies": {},
+  "analyze": false,
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "grunt": "~0.4.5",
+    "grunt-node-webkit-builder": "1.0.2"
+  }
 }

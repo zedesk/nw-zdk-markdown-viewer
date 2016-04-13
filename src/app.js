@@ -66,8 +66,8 @@ window.addEventListener("polymer-ready", initApp, false);
 var app;
 function initApp() {
 	fs.appendFile(log, "initApp\n" );
-	//var cm = document.querySelector("code-mirror");
-	// cm.mirror.setOption("lineWrapping",true);
+	var cm = document.querySelector("code-mirror");
+	cm.mirror.setOption("lineWrapping",true);
 	app = new App();
 	app.run();
 }
@@ -77,7 +77,7 @@ function App() {
 	var watchFile = null;
 	var watchDir = null;
 	var anchor = null;
-	
+
 	this.nav = document.querySelector("nav ul");
 
 	/**
@@ -191,7 +191,7 @@ function App() {
 				});
 		});
 	}
-	
+
 	this.openDir = function( auto ) {
 		var that = this;
 
@@ -261,7 +261,7 @@ function App() {
 										// fs.appendFile(log,'try to open ' + file +'\n');
 										that.open(file, true);
 									}
-									
+
 								}
 								if(stats.isDirectory()) {
 									li.classList.add("folder");
@@ -313,9 +313,15 @@ function App() {
 	this.getSrc = function() {
 		var marked = document.querySelector("zdk-marked");
 		var editor = document.querySelector("code-mirror");
-		editor.value = marked.innerHTML;
+		editor.value = marked.textContent;
 	}
-	
+
+	this.getEdited = function() {
+		var marked = document.querySelector("zdk-marked");
+		var editor = document.querySelector("code-mirror");
+		marked.textContent = editor.value;
+	}
+
 	this.open = function( file, auto ) {
 		if( !file.match(/^.\//)) {
 			fs.appendFile(log, "open file "+ dir + "/" +file+"\n");
@@ -323,7 +329,7 @@ function App() {
 			fs.appendFile(log, "open file "+ file+"\n");
 		}
 		var that = this;
-		
+
 		var tmp = file.split("#");
 		if( tmp.length > 1 ) {
 			file = tmp[0];
@@ -343,7 +349,7 @@ function App() {
 				internet.querySelector("iframe").src = "load.htm";
 				internet.style.display = "none";
 			}
-			
+
 			if( !file.match(/^.\//)) {
 				var filePath = dir + "/" + file;
 
@@ -367,7 +373,7 @@ function App() {
 
 				zdkMarked.textContent = data;
 				_watchFile( that, filePath );
-				
+
 				resolve();
 			});
 		});
