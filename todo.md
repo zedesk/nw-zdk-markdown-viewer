@@ -2,12 +2,41 @@
 % [zedesk.net](<dev@dev.zedesk.net>)
 % June 2014
 
+Bugs (nw 0.14)
+---------------
+  - review image links
+  - review the drawer panel
+  -
+
 General
 -------
 
    - allows email address in the header block
    - keep the last opened files
    - adds a editor panel
+   - create builder scripts for the different platforms
+   - add history nav buttons
+   - add toast on document update
+   - update to last Polymer version
+   - update [highlightjs](https://highlightjs.org/)
+   -
+
+
+## Editor
+
+  - save updates
+  - preview button
+  - remove line numbers gutter
+  - on editor, hide the goto top button
+  -
+
+> __Nota :__
+>
+>   - https://github.com/Aluxian/nwjs-starter
+>   - http://blog.aluxian.com/how-to-create-cross-platform-desktop-apps-with-nw-js/
+>   - https://github.com/Gisto/nwjs-shell-builder
+>   - http://docs.nwjs.io/en/latest/For%20Users/Package%20and%20Distribute/
+>   -
 
 Header block
 ------------
