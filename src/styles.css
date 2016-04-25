@@ -31,6 +31,7 @@ core-drawer-panel {
 	overflow-y: auto;
     display: flex;
     flex-direction: row;
+	height:100%;
 }
 
 [main] {
