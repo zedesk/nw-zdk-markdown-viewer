@@ -13,7 +13,7 @@
   "scripts": {
     "start": "nwjs src",
     "clean": "rm -rf src/bower_components && rm -rf node_modules",
-    "install": "cd src; bower install"
+    "postinstall": "cd src; bower install"
   },
   "main": "src/index.htm",
   "repository": {
