@@ -1,6 +1,6 @@
-% README
-% zedesk.net
-% May 2014
+% README  
+% zedesk.net  
+% April 2016
 
 # Introduction
 
@@ -14,8 +14,8 @@ This program uses [node-webkit](https://github.com/rogerwang/node-webkit) as bac
 
 Some pre-requisites : 
 
-   - node-webkit ( v0.9.2 )
-   - nodejs ( v0.10.28 )
+   - nwjs ( v0.14.2 )
+   - nodejs ( 5.11.0 )
    - npm global modules
       - bower
       - jsdoc
